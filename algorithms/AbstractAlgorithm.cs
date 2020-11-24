@@ -9,7 +9,7 @@ namespace algorithmProject.algorithms
 
 
 
-    abstract class AbstractAlgorithm : IAlgorithm
+    public abstract class AbstractAlgorithm : IAlgorithm
     {
 
         private IExecuteObserver executeObserver;
@@ -30,14 +30,12 @@ namespace algorithmProject.algorithms
         public abstract List<IAlgorithmInput> createInputFiles(string path);
         public void execute() {
             IAlgorithmInput input = GetInputSingleFiles();
-            input.init();
             executeObserver.printDebugToConsole("Start");
             long startTime = System.DateTime.Now.Millisecond;
             doExecute(input);
             long endTime = System.DateTime.Now.Millisecond;
             executeObserver.printDebugToConsole("End");
-            executeObserver.SetStatitcis(GetInputSingleFiles().ToString(), startTime - endTime);
-            input.release();
+            executeObserver.SetStatitcis(GetInputSingleFiles(), startTime - endTime);
         }
 
         protected abstract string doExecute(IAlgorithmInput input);
@@ -57,15 +55,32 @@ namespace algorithmProject.algorithms
 
     public abstract class AbstractAlgorithmInput: IAlgorithmInput
     {
-        public String filePath;
-        public AbstractAlgorithmInput(String filePath) {
+        private string filePath;
+
+        private string description;
+
+        private bool? res = null;
+
+        private long? time = null;
+        public AbstractAlgorithmInput(string filePath) {
             this.filePath = filePath;
         }
 
-        public abstract void init();
+        public string GetInputFilePath()
+        {
+            return filePath;
+        }
 
-        public abstract void release();
+        public void SetResult(bool res, string description)
+        {
+            this.res = res;
+            this.description = description;
+        }
 
+        public void SetExecuteTime(long time)
+        {
+            this.time = time;
+        }
     }
 
     public class DumyExecuteObserver : IExecuteObserver
@@ -86,9 +101,10 @@ namespace algorithmProject.algorithms
             Console.WriteLine(result);
         }
 
-        public void SetStatitcis(string key, long time)
+
+        public void SetStatitcis(IAlgorithmInput input, long time)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{input} excuted {time}"  );
         }
     }
 }

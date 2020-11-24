@@ -26,13 +26,18 @@ namespace algorithmProject.algorithms
     }
     public interface IAlgorithmInput
     {
-        public void init();
+        //public void init();
 
-        public void release();
+        //public void release();
 
+        public string GetInputFilePath();
+
+        public void SetResult(bool res, string description);
+
+        public void SetExecuteTime(long time);
     }
 
-    interface IExecuteObserver {
+    public interface IExecuteObserver {
 
 
         public void printDebugToConsole(string message); 
@@ -41,6 +46,6 @@ namespace algorithmProject.algorithms
 
         public void printResult(string result);
 
-        public void SetStatitcis(string key, long time);
+        public void SetStatitcis(IAlgorithmInput input, long time);
     }
 }
