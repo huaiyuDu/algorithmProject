@@ -45,7 +45,7 @@ namespace algorithmProject
 
         private void pingpong_Click(object sender, EventArgs e)
         {
-            openChildFormInPanel(new Main());
+            openChildFormInPanel(new Main("pingpong",this));
         }
 
         private void DivideConquer_Click(object sender, EventArgs e)

@@ -28,24 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabBatch = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
-            this.buttonChooseBatch = new System.Windows.Forms.Button();
-            this.executeBatchBtn = new System.Windows.Forms.Button();
-            this.panelChoosedFiles = new System.Windows.Forms.Panel();
             this.panelPlot = new System.Windows.Forms.Panel();
+            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.panelChoosedFiles = new System.Windows.Forms.Panel();
+            this.fileListView = new System.Windows.Forms.ListView();
+            this.File = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.number = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Result = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.executeBatchBtn = new System.Windows.Forms.Button();
+            this.buttonChooseBatch = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.algorithmName = new System.Windows.Forms.Label();
-            this.alrorithmNameText = new System.Windows.Forms.Label();
-            this.chooseSingleInputBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.singleExeBtn = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBoxInputFile = new System.Windows.Forms.TextBox();
             this.outputTextBox = new System.Windows.Forms.TextBox();
+            this.textBoxInputFile = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.singleExeBtn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.chooseSingleInputBtn = new System.Windows.Forms.Button();
+            this.alrorithmNameText = new System.Windows.Forms.Label();
+            this.algorithmName = new System.Windows.Forms.Label();
             this.tabSingle = new System.Windows.Forms.TabControl();
             this.tabBatch.SuspendLayout();
+            this.panelPlot.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
+            this.panelChoosedFiles.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabSingle.SuspendLayout();
@@ -64,6 +76,76 @@
             this.tabBatch.Text = "Batch Test Case";
             this.tabBatch.UseVisualStyleBackColor = true;
             // 
+            // panelPlot
+            // 
+            this.panelPlot.Controls.Add(this.chart);
+            this.panelPlot.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelPlot.Location = new System.Drawing.Point(303, 56);
+            this.panelPlot.Name = "panelPlot";
+            this.panelPlot.Size = new System.Drawing.Size(486, 365);
+            this.panelPlot.TabIndex = 3;
+            // 
+            // chart
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea1);
+            this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chart.Legends.Add(legend1);
+            this.chart.Location = new System.Drawing.Point(0, 0);
+            this.chart.Name = "chart";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "runtime";
+            this.chart.Series.Add(series1);
+            this.chart.Size = new System.Drawing.Size(486, 365);
+            this.chart.TabIndex = 0;
+            this.chart.Text = "chart1";
+            // 
+            // panelChoosedFiles
+            // 
+            this.panelChoosedFiles.Controls.Add(this.fileListView);
+            this.panelChoosedFiles.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelChoosedFiles.Location = new System.Drawing.Point(3, 56);
+            this.panelChoosedFiles.Name = "panelChoosedFiles";
+            this.panelChoosedFiles.Size = new System.Drawing.Size(300, 365);
+            this.panelChoosedFiles.TabIndex = 2;
+            // 
+            // fileListView
+            // 
+            this.fileListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.File,
+            this.number,
+            this.time,
+            this.Result});
+            this.fileListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileListView.HideSelection = false;
+            this.fileListView.Location = new System.Drawing.Point(0, 0);
+            this.fileListView.Name = "fileListView";
+            this.fileListView.Size = new System.Drawing.Size(300, 365);
+            this.fileListView.TabIndex = 0;
+            this.fileListView.UseCompatibleStateImageBehavior = false;
+            this.fileListView.View = System.Windows.Forms.View.Details;
+            this.fileListView.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            // 
+            // File
+            // 
+            this.File.Text = "File Name";
+            this.File.Width = 100;
+            // 
+            // number
+            // 
+            this.number.Text = "N";
+            // 
+            // time
+            // 
+            this.time.Text = "Time(ms)";
+            // 
+            // Result
+            // 
+            this.Result.Text = "Result";
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.executeBatchBtn);
@@ -75,14 +157,15 @@
             this.panel1.Size = new System.Drawing.Size(786, 53);
             this.panel1.TabIndex = 1;
             // 
-            // button2
+            // executeBatchBtn
             // 
-            this.button2.Location = new System.Drawing.Point(647, 13);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(134, 23);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "create input files";
-            this.button2.UseVisualStyleBackColor = true;
+            this.executeBatchBtn.Location = new System.Drawing.Point(144, 13);
+            this.executeBatchBtn.Name = "executeBatchBtn";
+            this.executeBatchBtn.Size = new System.Drawing.Size(133, 23);
+            this.executeBatchBtn.TabIndex = 0;
+            this.executeBatchBtn.Text = "execute";
+            this.executeBatchBtn.UseVisualStyleBackColor = true;
+            this.executeBatchBtn.Click += new System.EventHandler(this.executeBatchBtn_Click);
             // 
             // buttonChooseBatch
             // 
@@ -92,31 +175,17 @@
             this.buttonChooseBatch.TabIndex = 0;
             this.buttonChooseBatch.Text = "choose Input Files";
             this.buttonChooseBatch.UseVisualStyleBackColor = true;
+            this.buttonChooseBatch.Click += new System.EventHandler(this.buttonChooseBatch_Click);
             // 
-            // executeBatchBtn
+            // button2
             // 
-            this.executeBatchBtn.Location = new System.Drawing.Point(144, 13);
-            this.executeBatchBtn.Name = "executeBatchBtn";
-            this.executeBatchBtn.Size = new System.Drawing.Size(133, 23);
-            this.executeBatchBtn.TabIndex = 0;
-            this.executeBatchBtn.Text = "execute";
-            this.executeBatchBtn.UseVisualStyleBackColor = true;
-            // 
-            // panelChoosedFiles
-            // 
-            this.panelChoosedFiles.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelChoosedFiles.Location = new System.Drawing.Point(3, 56);
-            this.panelChoosedFiles.Name = "panelChoosedFiles";
-            this.panelChoosedFiles.Size = new System.Drawing.Size(200, 365);
-            this.panelChoosedFiles.TabIndex = 2;
-            // 
-            // panelPlot
-            // 
-            this.panelPlot.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPlot.Location = new System.Drawing.Point(203, 56);
-            this.panelPlot.Name = "panelPlot";
-            this.panelPlot.Size = new System.Drawing.Size(586, 365);
-            this.panelPlot.TabIndex = 3;
+            this.button2.Location = new System.Drawing.Point(647, 13);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(134, 23);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "create input files";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // tabPage1
             // 
@@ -136,50 +205,27 @@
             this.tabPage1.Text = "Single TestCase";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // algorithmName
+            // outputTextBox
             // 
-            this.algorithmName.AutoSize = true;
-            this.algorithmName.Location = new System.Drawing.Point(35, 19);
-            this.algorithmName.Name = "algorithmName";
-            this.algorithmName.Size = new System.Drawing.Size(95, 12);
-            this.algorithmName.TabIndex = 0;
-            this.algorithmName.Text = "algorithm Name:";
-            this.algorithmName.Click += new System.EventHandler(this.label1_Click);
+            this.outputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.outputTextBox.Location = new System.Drawing.Point(37, 132);
+            this.outputTextBox.Multiline = true;
+            this.outputTextBox.Name = "outputTextBox";
+            this.outputTextBox.ReadOnly = true;
+            this.outputTextBox.Size = new System.Drawing.Size(724, 284);
+            this.outputTextBox.TabIndex = 7;
             // 
-            // alrorithmNameText
+            // textBoxInputFile
             // 
-            this.alrorithmNameText.AutoSize = true;
-            this.alrorithmNameText.Location = new System.Drawing.Point(136, 19);
-            this.alrorithmNameText.Name = "alrorithmNameText";
-            this.alrorithmNameText.Size = new System.Drawing.Size(0, 12);
-            this.alrorithmNameText.TabIndex = 1;
-            // 
-            // chooseSingleInputBtn
-            // 
-            this.chooseSingleInputBtn.Location = new System.Drawing.Point(647, 42);
-            this.chooseSingleInputBtn.Name = "chooseSingleInputBtn";
-            this.chooseSingleInputBtn.Size = new System.Drawing.Size(123, 23);
-            this.chooseSingleInputBtn.TabIndex = 2;
-            this.chooseSingleInputBtn.Text = "choose Input File";
-            this.chooseSingleInputBtn.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 47);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 12);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Input File:";
-            // 
-            // singleExeBtn
-            // 
-            this.singleExeBtn.Location = new System.Drawing.Point(647, 71);
-            this.singleExeBtn.Name = "singleExeBtn";
-            this.singleExeBtn.Size = new System.Drawing.Size(123, 23);
-            this.singleExeBtn.TabIndex = 4;
-            this.singleExeBtn.Text = "Execute";
-            this.singleExeBtn.UseVisualStyleBackColor = true;
+            this.textBoxInputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxInputFile.Location = new System.Drawing.Point(112, 42);
+            this.textBoxInputFile.Name = "textBoxInputFile";
+            this.textBoxInputFile.ReadOnly = true;
+            this.textBoxInputFile.Size = new System.Drawing.Size(520, 21);
+            this.textBoxInputFile.TabIndex = 6;
             // 
             // label2
             // 
@@ -190,23 +236,54 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Output:";
             // 
-            // textBoxInputFile
+            // singleExeBtn
             // 
-            this.textBoxInputFile.Location = new System.Drawing.Point(112, 44);
-            this.textBoxInputFile.Name = "textBoxInputFile";
-            this.textBoxInputFile.Size = new System.Drawing.Size(529, 21);
-            this.textBoxInputFile.TabIndex = 6;
+            this.singleExeBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.singleExeBtn.Location = new System.Drawing.Point(638, 69);
+            this.singleExeBtn.Name = "singleExeBtn";
+            this.singleExeBtn.Size = new System.Drawing.Size(123, 23);
+            this.singleExeBtn.TabIndex = 4;
+            this.singleExeBtn.Text = "Execute";
+            this.singleExeBtn.UseVisualStyleBackColor = true;
+            this.singleExeBtn.Click += new System.EventHandler(this.singleExeBtn_Click);
             // 
-            // outputTextBox
+            // label1
             // 
-            this.outputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.outputTextBox.Location = new System.Drawing.Point(37, 147);
-            this.outputTextBox.Multiline = true;
-            this.outputTextBox.Name = "outputTextBox";
-            this.outputTextBox.ReadOnly = true;
-            this.outputTextBox.Size = new System.Drawing.Size(724, 217);
-            this.outputTextBox.TabIndex = 7;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(35, 47);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 12);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Input File:";
+            // 
+            // chooseSingleInputBtn
+            // 
+            this.chooseSingleInputBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chooseSingleInputBtn.Location = new System.Drawing.Point(638, 40);
+            this.chooseSingleInputBtn.Name = "chooseSingleInputBtn";
+            this.chooseSingleInputBtn.Size = new System.Drawing.Size(123, 23);
+            this.chooseSingleInputBtn.TabIndex = 2;
+            this.chooseSingleInputBtn.Text = "choose Input File";
+            this.chooseSingleInputBtn.UseVisualStyleBackColor = true;
+            this.chooseSingleInputBtn.Click += new System.EventHandler(this.chooseSingleInputBtn_Click);
+            // 
+            // alrorithmNameText
+            // 
+            this.alrorithmNameText.AutoSize = true;
+            this.alrorithmNameText.Location = new System.Drawing.Point(136, 19);
+            this.alrorithmNameText.Name = "alrorithmNameText";
+            this.alrorithmNameText.Size = new System.Drawing.Size(0, 12);
+            this.alrorithmNameText.TabIndex = 1;
+            // 
+            // algorithmName
+            // 
+            this.algorithmName.AutoSize = true;
+            this.algorithmName.Location = new System.Drawing.Point(35, 19);
+            this.algorithmName.Name = "algorithmName";
+            this.algorithmName.Size = new System.Drawing.Size(95, 12);
+            this.algorithmName.TabIndex = 0;
+            this.algorithmName.Text = "algorithm Name:";
+            this.algorithmName.Click += new System.EventHandler(this.label1_Click);
             // 
             // tabSingle
             // 
@@ -229,6 +306,9 @@
             this.Text = "Main";
             this.Load += new System.EventHandler(this.Main_Load);
             this.tabBatch.ResumeLayout(false);
+            this.panelPlot.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
+            this.panelChoosedFiles.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -247,7 +327,6 @@
         private System.Windows.Forms.Button buttonChooseBatch;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TextBox outputTextBox;
         private System.Windows.Forms.TextBox textBoxInputFile;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button singleExeBtn;
@@ -256,5 +335,12 @@
         private System.Windows.Forms.Label alrorithmNameText;
         private System.Windows.Forms.Label algorithmName;
         private System.Windows.Forms.TabControl tabSingle;
+        public System.Windows.Forms.TextBox outputTextBox;
+        private System.Windows.Forms.ColumnHeader File;
+        private System.Windows.Forms.ColumnHeader number;
+        private System.Windows.Forms.ColumnHeader time;
+        public System.Windows.Forms.ListView fileListView;
+        private System.Windows.Forms.ColumnHeader Result;
+        public System.Windows.Forms.DataVisualization.Charting.Chart chart;
     }
 }

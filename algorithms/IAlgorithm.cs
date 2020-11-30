@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace algorithmProject.algorithms
 {
-    interface IAlgorithm
+    public interface IAlgorithm
     {
+
         public string GetAlgorithmName();
 
 
@@ -21,7 +22,9 @@ namespace algorithmProject.algorithms
 
         public void SetBatchInputFiles(List<IAlgorithmInput> batchInput);
 
-        public List<IAlgorithmInput> createInputFiles(string path);
+        public List<IAlgorithmInput> GetBatchInputFiles();
+
+        public List<IAlgorithmInput> createInputFiles(string path,string n_series, int number);
 
     }
     public interface IAlgorithmInput
@@ -32,9 +35,20 @@ namespace algorithmProject.algorithms
 
         public string GetInputFilePath();
 
+        public string GetFileName();
+
         public void SetResult(bool res, string description);
 
         public void SetExecuteTime(long time);
+
+        public long? GetExecuteTime();
+
+        public long? getN();
+
+        public void setN(long n);
+
+        public (bool? res, string description) GetResult();
+
     }
 
     public interface IExecuteObserver {
@@ -46,6 +60,10 @@ namespace algorithmProject.algorithms
 
         public void printResult(string result);
 
-        public void SetStatitcis(IAlgorithmInput input, long time);
+        public void SetStatitcis(IAlgorithmInput input, long time, int index);
+
+        public void updateTask(IAlgorithmInput input, int index);
+
+        public void BatchFinished(List<IAlgorithmInput> batchInputs);
     }
 }

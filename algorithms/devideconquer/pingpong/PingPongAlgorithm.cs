@@ -10,34 +10,87 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
     {
         public PingPongAlgorithm(): base(null) { 
         }
-        public override List<IAlgorithmInput> createInputFiles(string path)
+        public PingPongAlgorithm(IExecuteObserver executeObserve) : base(executeObserve)
         {
-            throw new NotImplementedException();
         }
 
-        public override void executeBatch()
-        {
-            throw new NotImplementedException();
-        }
 
         public override string GetAlgorithmName()
         {
-            throw new NotImplementedException();
+            return "Ping-Pong project";
         }
 
-        protected override string doExecute(IAlgorithmInput input)
+        protected override string createInputFile(string fileName, long n)
+        {
+
+            int[,] inputMatrix = new int[n,n];
+            Random rand = new Random();
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i; j < n; j++) {
+                    if (i == j) {
+                        inputMatrix[i, j] = 0;
+                    } else {
+                        int value = rand.Next() % 2;
+                        inputMatrix[i, j] = value;
+                        inputMatrix[j, i] = value == 1? 0: 1;
+                    }
+                }
+            }
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(fileName))
+            {
+                file.WriteLine(n);
+                for (int i = 0; i < n; i++)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    for (int j = 0; j < n; j++)
+                    {
+                        
+                        sb.Append(inputMatrix[i, j]);
+                        if (j != n-1) {
+                            sb.Append(",");
+                        }
+                    }
+                    file.WriteLine(sb.ToString());
+                }
+            }
+
+            return fileName;
+
+        }
+
+
+        protected override (string,long) doExecute(IAlgorithmInput input)
         {
             // read input
             int[,] inputMatrix = readInput(input);
+            long startTime = DateTime.Now.Ticks;
             Matrix A = new Matrix(inputMatrix);
             Matrix A_seq = A * A;
             Matrix ResM = A + A_seq;
-            return null;
+            List<int> result = new List<int>();
+            for (int i = 0; i < A.Size; i++)
+            {
+                bool hasX = true;
+                for (int j = 0; j < A.Size; j++)
+                {
+                    
+                    if (i != j && ResM[i,j] == 0) {
+                        hasX = false;
+                    }
+                }
+                if (hasX) {
+                    result.Add(i);
+                }
+            }
+            long endTime = DateTime.Now.Ticks;
+            return (string.Join(",", result.ToArray()), endTime-startTime );
         }
 
         private int[,] readInput(IAlgorithmInput input) {
             string[] lines = System.IO.File.ReadAllLines(input.GetInputFilePath());
             int n = int.Parse(lines[0]);
+            input.setN(n);
             int[,] res = new int[n,n];
             for (int i = 1; i < lines.Length; i ++) {
                 string[] splits= lines[i].Split(',');
@@ -52,6 +105,10 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
         public class Matrix {
             private int[,] data;
 
+            public int this[int i, int j] {
+                get { return data[i,j]; }
+                set { data[i,j] = value; }
+            }
 
             public override string ToString()
             {
