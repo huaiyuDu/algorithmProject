@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace algorithmProject.algorithms
@@ -17,7 +18,9 @@ namespace algorithmProject.algorithms
 
         private IAlgorithmInput singleInput;
 
-        private List<IAlgorithmInput> batchInput; 
+        private List<IAlgorithmInput> batchInput;
+
+        protected CancellationToken token;
 
         public AbstractAlgorithm(IExecuteObserver executeObserver) {
             if (executeObserver == null) {
@@ -28,7 +31,7 @@ namespace algorithmProject.algorithms
 
         }
 
- 
+
         public void execute() {
             IAlgorithmInput input = GetInputSingleFiles();
             executeObserver.printDebugToConsole($"{input.GetFileName()}Start at {DateTime.Now}");
@@ -40,27 +43,55 @@ namespace algorithmProject.algorithms
             executeObserver.SetStatitcis(GetInputSingleFiles(), rumtime, -1);
         }
 
-        protected abstract (string,long) doExecute(IAlgorithmInput input);
-        public void executeBatch() {
-            List < IAlgorithmInput >  batchInputs = this.GetBatchInputFiles();
+        protected abstract (string, long) doExecute(IAlgorithmInput input);
+
+        protected virtual void putCancellToken(CancellationToken token)
+        {
+        }
+
+        public void executeBatch(IProgress<int> progress, CancellationToken token){
+            this.token = token;
+            putCancellToken(token);
+            executeObserver.startBatchTask();
+            List<IAlgorithmInput> batchInputs = this.GetBatchInputFiles();
             int index = 0;
-            foreach  (IAlgorithmInput input in batchInputs) {
-                input.SetResult(true, "start");
-                executeObserver.updateTask(input, index);
-                executeObserver.printDebugToConsole($"{input.GetFileName()}Start at {DateTime.Now}");
-                long startTime = DateTime.Now.Ticks;
-                //System.Console.WriteLine(startTime);
-                (string result, long rumtime) = doExecute(input);
-                executeObserver.printResult(result);
-                long endTime = DateTime.Now.Ticks;
-                //System.Console.WriteLine(endTime);
-                //System.Console.WriteLine(endTime - startTime);
-                executeObserver.printDebugToConsole($"End at {DateTime.Now}");
-                executeObserver.SetStatitcis(input, rumtime, index);
-                index = index + 1;
+            try {
+                foreach (IAlgorithmInput input in batchInputs)
+                {
+                    if (token.IsCancellationRequested) {
+                        break;
+                    }
+                    input.SetResult(true, "start");
+                    executeObserver.updateTask(input, index);
+                    executeObserver.printDebugToConsole($"{input.GetFileName()}Start at {DateTime.Now}");
+                    long startTime = DateTime.Now.Ticks;
+                    //System.Console.WriteLine(startTime);
+                    (string result, long rumtime) = doExecute(input);
+                    executeObserver.printResult(result);
+                    long endTime = DateTime.Now.Ticks;
+                    //System.Console.WriteLine(endTime);
+                    //System.Console.WriteLine(endTime - startTime);
+                    executeObserver.printDebugToConsole($"End at {DateTime.Now}");
+                    executeObserver.SetStatitcis(input, rumtime, index);
+                    index = index + 1;
+                    progress.Report(index * 100 / batchInputs.Count);
+                }
+            } catch (OperationCanceledException E) {
+                executeObserver.printConsole(E.Message);
             }
 
             executeObserver.BatchFinished(batchInputs);
+            
+        }
+
+        protected void checkCancel() {
+            if (token.IsCancellationRequested)
+            {
+                throw new OperationCanceledException("the task canceled");
+            }
+        }
+        public void executeBatch() {
+            executeBatch(DumyProgress.DUMY_PROGRESS, CancellationToken.None);
         }
         public abstract string GetAlgorithmName();
         public IAlgorithmInput GetInputSingleFiles() {
@@ -82,18 +113,7 @@ namespace algorithmProject.algorithms
 
         public List<IAlgorithmInput> createInputFiles(string path, string n_series, int number)
         {
-            if (string.IsNullOrEmpty(path)) {
-                throw new Exception("please choose file path");
-            }
-            if (string.IsNullOrEmpty(n_series))
-            {
-                throw new Exception("please input N series");
-            }
-
-            if (number == 0)
-            {
-                throw new Exception("please input case number for each N");
-            }
+            
             string[] series = n_series.Split(',');
             int index = 0;
             foreach (string nstr in series) {
@@ -118,6 +138,18 @@ namespace algorithmProject.algorithms
         }
     }
 
+    public class DumyProgress : IProgress<int>
+    {
+        public static readonly DumyProgress DUMY_PROGRESS  = new DumyProgress();
+
+        public DumyProgress() { 
+        }
+        public void Report(int value)
+        {
+            Console.WriteLine($"{value}%");
+            //throw new NotImplementedException();
+        }
+    }
     public abstract class AbstractAlgorithmInput: IAlgorithmInput
     {
         private string filePath;
@@ -198,7 +230,7 @@ namespace algorithmProject.algorithms
 
         public void SetStatitcis(IAlgorithmInput input, long time)
         {
-            Console.WriteLine($"{input} excuted {time}"  );
+            Console.WriteLine($"{input} excuted {time}");
         }
 
         public void SetStatitcis(IAlgorithmInput input, long time, int index)
@@ -217,6 +249,16 @@ namespace algorithmProject.algorithms
         }
 
         public void updateTask(IAlgorithmInput input, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setPercentage(int percentage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void startBatchTask()
         {
             throw new NotImplementedException();
         }

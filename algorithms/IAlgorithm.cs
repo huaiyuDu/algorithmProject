@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace algorithmProject.algorithms
@@ -13,6 +14,8 @@ namespace algorithmProject.algorithms
 
 
         public void execute();
+
+        public void executeBatch(IProgress<int> progress, CancellationToken token);
 
         public void executeBatch();
 
@@ -49,6 +52,7 @@ namespace algorithmProject.algorithms
 
         public (bool? res, string description) GetResult();
 
+
     }
 
     public interface IExecuteObserver {
@@ -65,5 +69,9 @@ namespace algorithmProject.algorithms
         public void updateTask(IAlgorithmInput input, int index);
 
         public void BatchFinished(List<IAlgorithmInput> batchInputs);
+
+        public void setPercentage(int percentage);
+
+        public void startBatchTask();
     }
 }

@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.tabBatch = new System.Windows.Forms.TabPage();
             this.panelPlot = new System.Windows.Forms.Panel();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -80,28 +81,30 @@
             // 
             this.panelPlot.Controls.Add(this.chart);
             this.panelPlot.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPlot.Location = new System.Drawing.Point(303, 56);
+            this.panelPlot.Location = new System.Drawing.Point(403, 56);
             this.panelPlot.Name = "panelPlot";
-            this.panelPlot.Size = new System.Drawing.Size(486, 365);
+            this.panelPlot.Size = new System.Drawing.Size(386, 365);
             this.panelPlot.TabIndex = 3;
             // 
             // chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea1);
+            chartArea3.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea3);
             this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chart.Legends.Add(legend1);
+            legend3.Name = "Legend1";
+            this.chart.Legends.Add(legend3);
             this.chart.Location = new System.Drawing.Point(0, 0);
             this.chart.Name = "chart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Legend = "Legend1";
-            series1.Name = "runtime";
-            this.chart.Series.Add(series1);
-            this.chart.Size = new System.Drawing.Size(486, 365);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Legend = "Legend1";
+            series3.Name = "runtime";
+            this.chart.Series.Add(series3);
+            this.chart.Size = new System.Drawing.Size(386, 365);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart1";
+            title3.Name = "line chart";
+            this.chart.Titles.Add(title3);
             // 
             // panelChoosedFiles
             // 
@@ -109,7 +112,7 @@
             this.panelChoosedFiles.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelChoosedFiles.Location = new System.Drawing.Point(3, 56);
             this.panelChoosedFiles.Name = "panelChoosedFiles";
-            this.panelChoosedFiles.Size = new System.Drawing.Size(300, 365);
+            this.panelChoosedFiles.Size = new System.Drawing.Size(400, 365);
             this.panelChoosedFiles.TabIndex = 2;
             // 
             // fileListView
@@ -123,7 +126,7 @@
             this.fileListView.HideSelection = false;
             this.fileListView.Location = new System.Drawing.Point(0, 0);
             this.fileListView.Name = "fileListView";
-            this.fileListView.Size = new System.Drawing.Size(300, 365);
+            this.fileListView.Size = new System.Drawing.Size(400, 365);
             this.fileListView.TabIndex = 0;
             this.fileListView.UseCompatibleStateImageBehavior = false;
             this.fileListView.View = System.Windows.Forms.View.Details;
@@ -132,7 +135,7 @@
             // File
             // 
             this.File.Text = "File Name";
-            this.File.Width = 100;
+            this.File.Width = 220;
             // 
             // number
             // 
@@ -179,6 +182,7 @@
             // 
             // button2
             // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Location = new System.Drawing.Point(647, 13);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(134, 23);

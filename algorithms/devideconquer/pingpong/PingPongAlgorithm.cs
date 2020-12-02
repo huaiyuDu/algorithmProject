@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace algorithmProject.algorithms.devideconquer.pingpong
 {
     public class PingPongAlgorithm : AbstractAlgorithm
     {
+
+        protected static CancellationToken current_token = CancellationToken.None;
         public PingPongAlgorithm(): base(null) { 
         }
         public PingPongAlgorithm(IExecuteObserver executeObserve) : base(executeObserve)
@@ -64,7 +67,7 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
         {
             // read input
             int[,] inputMatrix = readInput(input);
-            long startTime = DateTime.Now.Ticks;
+            var startTime = DateTime.Now;
             Matrix A = new Matrix(inputMatrix);
             Matrix A_seq = A * A;
             Matrix ResM = A + A_seq;
@@ -83,8 +86,8 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                     result.Add(i);
                 }
             }
-            long endTime = DateTime.Now.Ticks;
-            return (string.Join(",", result.ToArray()), endTime-startTime );
+            var endTime = DateTime.Now;
+            return (string.Join(",", result.ToArray()), (long)(endTime-startTime).TotalMilliseconds );
         }
 
         private int[,] readInput(IAlgorithmInput input) {
@@ -101,7 +104,10 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
             }
             return res;
         }
-
+        protected override void putCancellToken(CancellationToken token)
+        {
+            current_token = token;
+        }
         public class Matrix {
             private int[,] data;
 
@@ -132,12 +138,15 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
             }
 
             public int Size { get => data.GetLength(0);  }
-
+                  
             public Matrix(int[,] data) {
                 this.data = data;
             }
 
             public static Matrix operator * (Matrix a, Matrix b) {
+                if (current_token.IsCancellationRequested){
+                    throw new TaskCanceledException("task canceled");
+                }
                 if (a.Size == 2) {
                     int[,] data= new int[2, 2];
                     data[0, 0] = a.data[0, 0] * b.data[0, 0] + a.data[0, 1] * b.data[1, 0];

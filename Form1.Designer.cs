@@ -149,19 +149,23 @@
             this.toolStripclearLog.Name = "toolStripclearLog";
             this.toolStripclearLog.Size = new System.Drawing.Size(56, 22);
             this.toolStripclearLog.Text = "clear";
+            this.toolStripclearLog.Click += new System.EventHandler(this.toolStripclearLog_Click);
             // 
             // toolStripStopButton
             // 
+            this.toolStripStopButton.Enabled = false;
             this.toolStripStopButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStopButton.Image")));
             this.toolStripStopButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripStopButton.Name = "toolStripStopButton";
             this.toolStripStopButton.Size = new System.Drawing.Size(54, 22);
             this.toolStripStopButton.Text = "stop";
+            this.toolStripStopButton.Click += new System.EventHandler(this.toolStripStopButton_Click);
             // 
             // progressBar
             // 
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(100, 22);
+            this.progressBar.Click += new System.EventHandler(this.progressBar_Click);
             // 
             // panelMain
             // 
@@ -214,9 +218,9 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripclearLog;
-        private System.Windows.Forms.ToolStripButton toolStripStopButton;
-        private System.Windows.Forms.ToolStripProgressBar progressBar;
         public System.Windows.Forms.TextBox textBoxLogs;
+        public System.Windows.Forms.ToolStripProgressBar progressBar;
+        public System.Windows.Forms.ToolStripButton toolStripStopButton;
     }
 }
 

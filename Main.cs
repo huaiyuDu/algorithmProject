@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,6 +18,11 @@ namespace algorithmProject
         private IAlgorithm algorithm;
 
         private IExecuteObserver observer;
+
+        // cancel token, used for cancel task
+        //public CancellationToken cancellationToken;
+
+        private CancellationTokenSource cancellationTokenSource;
         public Main(string algorithmName,Form1 basicform)
         {
             InitializeComponent();
@@ -26,6 +32,11 @@ namespace algorithmProject
 
             InitializeValues();
 
+        }
+
+        public void receveTaskStatusEvent(string status) {
+            // only cancel now
+            stopCurrentTask();
         }
 
         private void InitializeValues() {
@@ -115,24 +126,35 @@ namespace algorithmProject
 
         private void executeBatchBtn_Click(object sender, EventArgs e)
         {
-            
-            Task.Factory.StartNew(() =>
+            cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken cancellationToken = cancellationTokenSource.Token;
+            IProgress<int> progress = new Progress<int>(value => {
+                observer.setPercentage(value);
+            });
+            Task currentTask = Task.Factory.StartNew(() =>
             {
                 Control.CheckForIllegalCrossThreadCalls = false;
-                algorithm.executeBatch();
+                algorithm.executeBatch(progress,cancellationToken);
             }).ContinueWith((t) =>
             {
                 System.Console.WriteLine("Done!");
                 //displayAlert("Done !");
-            }, System.Threading.CancellationToken.None,
+            }, cancellationToken,
             TaskContinuationOptions.None,
             TaskScheduler.FromCurrentSynchronizationContext());
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             CreateTestCase createTestDialog = new CreateTestCase(algorithm);
             createTestDialog.ShowDialog(this);
+        }
+
+        public void stopCurrentTask() {
+            if (cancellationTokenSource!= null) {
+                cancellationTokenSource.Cancel();
+            }
         }
     }
 
@@ -152,10 +174,15 @@ namespace algorithmProject
 
         public void BatchFinished(List<IAlgorithmInput> batchInputs)
         {
+            basicform.toolStripStopButton.Enabled = false;
             mainform.chart.Series["runtime"].Points.Clear();
             Dictionary<long, List<long>> map = new Dictionary<long, List<long>>();
             foreach (IAlgorithmInput input in batchInputs) {
-                long key = input.getN() ?? 0;
+                if (input.getN() == null || input.GetExecuteTime() == null)
+                {
+                    continue;
+                }
+                long key = input.getN()??0;
                 if (map.ContainsKey(key))
                 {
                     map[key].Add(input.GetExecuteTime() ?? 0);
@@ -178,6 +205,7 @@ namespace algorithmProject
                 mainform.chart.Series["runtime"].Points.AddXY(key, avg);
 
             }
+            basicform.progressBar.Value = 0;
         }
 
         public void printConsole(string message)
@@ -204,6 +232,11 @@ namespace algorithmProject
             mainform.outputTextBox.ScrollToCaret();
         }
 
+        public void setPercentage(int percentage)
+        {
+            basicform.progressBar.Value = percentage;
+        }
+
         public void SetStatitcis(IAlgorithmInput input, long time, int index = -1)
         {
             input.SetExecuteTime(time);
@@ -213,6 +246,13 @@ namespace algorithmProject
                 updateTask(input, index);
             }
         }
+
+        public void startBatchTask()
+        {
+            mainform.chart.Series["runtime"].Points.Clear();
+            basicform.toolStripStopButton.Enabled = true;
+        }
+
         public void updateTask(IAlgorithmInput input, int index)
         {
             if (index != -1)
