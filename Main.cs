@@ -69,7 +69,26 @@ namespace algorithmProject
 
         private void singleExeBtn_Click(object sender, EventArgs e)
         {
-            algorithm.execute();
+            cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken cancellationToken = cancellationTokenSource.Token;
+            if (algorithm.GetInputSingleFiles() == null) {
+                MessageBox.Show("please choose input files!", "Input Missing", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                return;
+            }
+            
+            Task currentTask = Task.Factory.StartNew(() =>
+            {
+                Control.CheckForIllegalCrossThreadCalls = false;
+                algorithm.execute(cancellationToken);
+            }).ContinueWith((t) =>
+            {
+                System.Console.WriteLine("Done!");
+                //displayAlert("Done !");
+            }, cancellationToken,
+            TaskContinuationOptions.None,
+            TaskScheduler.FromCurrentSynchronizationContext());
+
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -126,6 +145,12 @@ namespace algorithmProject
 
         private void executeBatchBtn_Click(object sender, EventArgs e)
         {
+            if (algorithm.GetBatchInputFiles() == null)
+            {
+                MessageBox.Show("please choose batch input files!", "Input Missing", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                return;
+            }
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = cancellationTokenSource.Token;
             IProgress<int> progress = new Progress<int>(value => {
@@ -175,6 +200,7 @@ namespace algorithmProject
         public void BatchFinished(List<IAlgorithmInput> batchInputs)
         {
             basicform.toolStripStopButton.Enabled = false;
+            mainform.executeBatchBtn.Enabled = true; 
             mainform.chart.Series["runtime"].Points.Clear();
             Dictionary<long, List<long>> map = new Dictionary<long, List<long>>();
             foreach (IAlgorithmInput input in batchInputs) {
@@ -247,10 +273,25 @@ namespace algorithmProject
             }
         }
 
+        public void startTask()
+        {
+            //basicform.progressBar.Style = ProgressBarStyle.Marquee;
+            basicform.toolStripStopButton.Enabled = true;
+            mainform.singleExeBtn.Enabled = false; 
+        }
+
+        public void finishTask()
+        {
+           // basicform.progressBar.Style = ProgressBarStyle.Blocks;
+            basicform.toolStripStopButton.Enabled = false;
+            mainform.singleExeBtn.Enabled = true;
+        }
+
         public void startBatchTask()
         {
             mainform.chart.Series["runtime"].Points.Clear();
             basicform.toolStripStopButton.Enabled = true;
+            mainform.executeBatchBtn.Enabled = false; 
         }
 
         public void updateTask(IAlgorithmInput input, int index)

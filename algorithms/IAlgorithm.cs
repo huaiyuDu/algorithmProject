@@ -13,7 +13,7 @@ namespace algorithmProject.algorithms
         public string GetAlgorithmName();
 
 
-        public void execute();
+        public void execute(CancellationToken token);
 
         public void executeBatch(IProgress<int> progress, CancellationToken token);
 
@@ -73,5 +73,9 @@ namespace algorithmProject.algorithms
         public void setPercentage(int percentage);
 
         public void startBatchTask();
+
+        public void startTask();
+
+        public void finishTask();
     }
 }

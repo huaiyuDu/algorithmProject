@@ -11,8 +11,7 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
     {
 
         protected static CancellationToken current_token = CancellationToken.None;
-        public PingPongAlgorithm(): base(null) { 
-        }
+
         public PingPongAlgorithm(IExecuteObserver executeObserve) : base(executeObserve)
         {
         }

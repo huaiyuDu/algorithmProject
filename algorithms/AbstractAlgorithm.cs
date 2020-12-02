@@ -32,16 +32,33 @@ namespace algorithmProject.algorithms
         }
 
 
-        public void execute() {
+        public void execute(CancellationToken token) {
             IAlgorithmInput input = GetInputSingleFiles();
+            putCancellToken(token);
+            executeObserver.startTask();
             executeObserver.printDebugToConsole($"{input.GetFileName()}Start at {DateTime.Now}");
             long startTime = System.DateTime.Now.Millisecond;
-            (string result, long rumtime) = doExecute(input);
-            executeObserver.printResult(result);
-            long endTime = System.DateTime.Now.Millisecond;
-            executeObserver.printDebugToConsole($"End at {DateTime.Now}");
-            executeObserver.SetStatitcis(GetInputSingleFiles(), rumtime, -1);
+            try
+            {
+                (string result, long rumtime) = doExecute(input);
+                writeFile(result, input.GetInputFilePath()+".out");
+                executeObserver.printResult(result);
+                long endTime = System.DateTime.Now.Millisecond;
+                executeObserver.printDebugToConsole($"End at {DateTime.Now}");
+                executeObserver.SetStatitcis(GetInputSingleFiles(), rumtime, -1);
+            }
+            catch (OperationCanceledException E)
+            {
+                executeObserver.printConsole(E.Message);
+            }
+            finally {
+                executeObserver.finishTask();
+            }
+
+
         }
+
+
 
         protected abstract (string, long) doExecute(IAlgorithmInput input);
 
@@ -55,33 +72,42 @@ namespace algorithmProject.algorithms
             executeObserver.startBatchTask();
             List<IAlgorithmInput> batchInputs = this.GetBatchInputFiles();
             int index = 0;
-            try {
+            try
+            {
                 foreach (IAlgorithmInput input in batchInputs)
                 {
-                    if (token.IsCancellationRequested) {
+                    if (token.IsCancellationRequested)
+                    {
                         break;
                     }
                     input.SetResult(true, "start");
                     executeObserver.updateTask(input, index);
                     executeObserver.printDebugToConsole($"{input.GetFileName()}Start at {DateTime.Now}");
                     long startTime = DateTime.Now.Ticks;
-                    //System.Console.WriteLine(startTime);
                     (string result, long rumtime) = doExecute(input);
-                    executeObserver.printResult(result);
-                    long endTime = DateTime.Now.Ticks;
-                    //System.Console.WriteLine(endTime);
-                    //System.Console.WriteLine(endTime - startTime);
+                    executeObserver.printDebugToConsole(result);
                     executeObserver.printDebugToConsole($"End at {DateTime.Now}");
                     executeObserver.SetStatitcis(input, rumtime, index);
                     index = index + 1;
                     progress.Report(index * 100 / batchInputs.Count);
                 }
-            } catch (OperationCanceledException E) {
+            }
+            catch (OperationCanceledException E)
+            {
                 executeObserver.printConsole(E.Message);
             }
-
-            executeObserver.BatchFinished(batchInputs);
+            finally {
+                executeObserver.BatchFinished(batchInputs);
+            }
             
+        }
+
+        protected void writeFile(string result, string fileName) {
+            using (StreamWriter sw = new StreamWriter(fileName))
+            {
+                sw.WriteLine(result);
+            }
+            executeObserver.printDebugToConsole($"output file write to {fileName}");
         }
 
         protected void checkCancel() {
@@ -259,6 +285,16 @@ namespace algorithmProject.algorithms
         }
 
         public void startBatchTask()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void startTask()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void finishTask()
         {
             throw new NotImplementedException();
         }

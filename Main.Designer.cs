@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.tabBatch = new System.Windows.Forms.TabPage();
             this.panelPlot = new System.Windows.Forms.Panel();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -88,23 +88,23 @@
             // 
             // chart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea3);
+            chartArea2.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea2);
             this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.chart.Legends.Add(legend3);
+            legend2.Name = "Legend1";
+            this.chart.Legends.Add(legend2);
             this.chart.Location = new System.Drawing.Point(0, 0);
             this.chart.Name = "chart";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series3.Legend = "Legend1";
-            series3.Name = "runtime";
-            this.chart.Series.Add(series3);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Legend = "Legend1";
+            series2.Name = "runtime";
+            this.chart.Series.Add(series2);
             this.chart.Size = new System.Drawing.Size(386, 365);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart1";
-            title3.Name = "line chart";
-            this.chart.Titles.Add(title3);
+            title2.Name = "line chart";
+            this.chart.Titles.Add(title2);
             // 
             // panelChoosedFiles
             // 
@@ -162,6 +162,8 @@
             // 
             // executeBatchBtn
             // 
+            this.executeBatchBtn.Image = global::algorithmProject.Properties.Resources.resultset_next;
+            this.executeBatchBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.executeBatchBtn.Location = new System.Drawing.Point(144, 13);
             this.executeBatchBtn.Name = "executeBatchBtn";
             this.executeBatchBtn.Size = new System.Drawing.Size(133, 23);
@@ -243,6 +245,9 @@
             // singleExeBtn
             // 
             this.singleExeBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.singleExeBtn.Cursor = System.Windows.Forms.Cursors.Default;
+            this.singleExeBtn.Image = global::algorithmProject.Properties.Resources.resultset_next;
+            this.singleExeBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.singleExeBtn.Location = new System.Drawing.Point(638, 69);
             this.singleExeBtn.Name = "singleExeBtn";
             this.singleExeBtn.Size = new System.Drawing.Size(123, 23);
@@ -327,18 +332,15 @@
         private System.Windows.Forms.Panel panelPlot;
         private System.Windows.Forms.Panel panelChoosedFiles;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button executeBatchBtn;
         private System.Windows.Forms.Button buttonChooseBatch;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TextBox textBoxInputFile;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button singleExeBtn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button chooseSingleInputBtn;
         private System.Windows.Forms.Label alrorithmNameText;
         private System.Windows.Forms.Label algorithmName;
-        private System.Windows.Forms.TabControl tabSingle;
         public System.Windows.Forms.TextBox outputTextBox;
         private System.Windows.Forms.ColumnHeader File;
         private System.Windows.Forms.ColumnHeader number;
@@ -346,5 +348,8 @@
         public System.Windows.Forms.ListView fileListView;
         private System.Windows.Forms.ColumnHeader Result;
         public System.Windows.Forms.DataVisualization.Charting.Chart chart;
+        public System.Windows.Forms.Button executeBatchBtn;
+        public System.Windows.Forms.Button singleExeBtn;
+        public System.Windows.Forms.TabControl tabSingle;
     }
 }

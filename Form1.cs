@@ -1,4 +1,5 @@
-﻿using System;
+﻿using algorithmProject.algorithms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +20,10 @@ namespace algorithmProject
 
         // 基于上面的委托定义事件
         public event TaskStatusHandler taskStatusHandler;
+
+        private Dictionary<string, Main> childForms = new Dictionary<string, Main>();
+
+
 
         public Form1()
         {
@@ -51,7 +56,18 @@ namespace algorithmProject
 
         private void pingpong_Click(object sender, EventArgs e)
         {
-            openChildFormInPanel(new Main("pingpong",this));
+            openChildFormInPanel(createForm(AlgorithmFactory.PING_PONG));
+        }
+
+        private Main createForm(string algorithmName) {
+            if (!childForms.ContainsKey(algorithmName))
+            {
+                Main mianForm = new Main(algorithmName, this);
+                childForms.Add(algorithmName, mianForm);
+            }
+            return childForms[algorithmName];
+
+
         }
 
         private void DivideConquer_Click(object sender, EventArgs e)
@@ -61,8 +77,6 @@ namespace algorithmProject
 
         private void openChildFormInPanel(Main childForm)
         {
-            if (activeForm != null)
-                activeForm.Close();
             activeForm = childForm;
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
