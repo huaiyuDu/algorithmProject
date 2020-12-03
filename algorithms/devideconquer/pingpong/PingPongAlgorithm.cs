@@ -22,6 +22,15 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
             return "Ping-Pong project";
         }
 
+        /**
+         * input file sample
+         * 5                  // denote the size of matrix
+         * 0,1,0,1,1          // matrix data
+         * 0,0,0,0,1
+         * 1,1,0,1,0
+         * 0,1,0,0,0
+         * 0,0,1,1,0
+         */
         protected override string createInputFile(string fileName, long n)
         {
 

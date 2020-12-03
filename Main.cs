@@ -28,7 +28,7 @@ namespace algorithmProject
             InitializeComponent();
             observer = new UIExecuteObserver(this,basicform);
             // TODO factory
-            algorithm = new PingPongAlgorithm(observer);
+            algorithm = AlgorithmFactory.getAlorithm(algorithmName, observer);
 
             InitializeValues();
 

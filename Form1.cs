@@ -33,6 +33,7 @@ namespace algorithmProject
         private void hideSubMenu()
         {
             panelDevideConquer.Visible = false;
+            greedyPanel.Visible = false;
             //panelplaylistsubmenu.visible = false;
             //paneltoolssubmenu.visible = false;
         }
@@ -110,6 +111,16 @@ namespace algorithmProject
         private void toolStripclearLog_Click(object sender, EventArgs e)
         {
             textBoxLogs.Text = "";
+        }
+
+        private void greedyBtn_Click(object sender, EventArgs e)
+        {
+            showSubMenu(greedyPanel);
+        }
+
+        private void huffmanbutton_Click(object sender, EventArgs e)
+        {
+            openChildFormInPanel(createForm(AlgorithmFactory.HUFFMAN));
         }
     }
 }

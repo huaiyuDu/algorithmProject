@@ -37,15 +37,16 @@ namespace algorithmProject.algorithms
             putCancellToken(token);
             executeObserver.startTask();
             executeObserver.printDebugToConsole($"{input.GetFileName()}Start at {DateTime.Now}");
-            long startTime = System.DateTime.Now.Millisecond;
+             
             try
             {
+                var startTime = DateTime.Now;
                 (string result, long rumtime) = doExecute(input);
+                var endTime= DateTime.Now;
                 writeFile(result, input.GetInputFilePath()+".out");
                 executeObserver.printResult(result);
-                long endTime = System.DateTime.Now.Millisecond;
                 executeObserver.printDebugToConsole($"End at {DateTime.Now}");
-                executeObserver.SetStatitcis(GetInputSingleFiles(), rumtime, -1);
+                executeObserver.SetStatitcis(GetInputSingleFiles(), (long)(endTime - startTime).TotalMilliseconds, -1);
             }
             catch (OperationCanceledException E)
             {
@@ -83,11 +84,12 @@ namespace algorithmProject.algorithms
                     input.SetResult(true, "start");
                     executeObserver.updateTask(input, index);
                     executeObserver.printDebugToConsole($"{input.GetFileName()}Start at {DateTime.Now}");
-                    long startTime = DateTime.Now.Ticks;
+                    var startTime = DateTime.Now;
                     (string result, long rumtime) = doExecute(input);
+                    var endTime = DateTime.Now;
                     executeObserver.printDebugToConsole(result);
                     executeObserver.printDebugToConsole($"End at {DateTime.Now}");
-                    executeObserver.SetStatitcis(input, rumtime, index);
+                    executeObserver.SetStatitcis(input, (long)(endTime - startTime).TotalMilliseconds, index);
                     index = index + 1;
                     progress.Report(index * 100 / batchInputs.Count);
                 }

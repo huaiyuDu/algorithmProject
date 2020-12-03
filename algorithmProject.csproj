@@ -54,6 +54,7 @@
     <Compile Include="algorithms\AbstractAlgorithm.cs" />
     <Compile Include="algorithms\AlgorithmFactory.cs" />
     <Compile Include="algorithms\devideconquer\pingpong\PingPongAlgorithm.cs" />
+    <Compile Include="algorithms\greedy\HuffmanCode.cs" />
     <Compile Include="algorithms\IAlgorithm.cs" />
     <Compile Include="CreateTestCase.cs">
       <SubType>Form</SubType>

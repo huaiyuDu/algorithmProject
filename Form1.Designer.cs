@@ -44,17 +44,23 @@
             this.introLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.greedyBtn = new System.Windows.Forms.Button();
+            this.greedyPanel = new System.Windows.Forms.Panel();
+            this.huffmanbutton = new System.Windows.Forms.Button();
             this.navagatorPanel.SuspendLayout();
             this.panelDevideConquer.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panelMain.SuspendLayout();
+            this.greedyPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // navagatorPanel
             // 
             this.navagatorPanel.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.navagatorPanel.Controls.Add(this.greedyPanel);
+            this.navagatorPanel.Controls.Add(this.greedyBtn);
             this.navagatorPanel.Controls.Add(this.panelDevideConquer);
             this.navagatorPanel.Controls.Add(this.button1);
             this.navagatorPanel.Controls.Add(this.panel1);
@@ -221,6 +227,43 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "please choose a algorithm ";
             // 
+            // greedyBtn
+            // 
+            this.greedyBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.greedyBtn.Dock = System.Windows.Forms.DockStyle.Top;
+            this.greedyBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.greedyBtn.Location = new System.Drawing.Point(0, 240);
+            this.greedyBtn.Name = "greedyBtn";
+            this.greedyBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.greedyBtn.Size = new System.Drawing.Size(186, 40);
+            this.greedyBtn.TabIndex = 5;
+            this.greedyBtn.Text = "Greedy";
+            this.greedyBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.greedyBtn.UseVisualStyleBackColor = false;
+            this.greedyBtn.Click += new System.EventHandler(this.greedyBtn_Click);
+            // 
+            // greedyPanel
+            // 
+            this.greedyPanel.Controls.Add(this.huffmanbutton);
+            this.greedyPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.greedyPanel.Location = new System.Drawing.Point(0, 280);
+            this.greedyPanel.Name = "greedyPanel";
+            this.greedyPanel.Size = new System.Drawing.Size(186, 100);
+            this.greedyPanel.TabIndex = 6;
+            // 
+            // huffmanbutton
+            // 
+            this.huffmanbutton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.huffmanbutton.Location = new System.Drawing.Point(0, 0);
+            this.huffmanbutton.Name = "huffmanbutton";
+            this.huffmanbutton.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
+            this.huffmanbutton.Size = new System.Drawing.Size(186, 35);
+            this.huffmanbutton.TabIndex = 0;
+            this.huffmanbutton.Text = "Huffman Code";
+            this.huffmanbutton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.huffmanbutton.UseVisualStyleBackColor = true;
+            this.huffmanbutton.Click += new System.EventHandler(this.huffmanbutton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -243,6 +286,7 @@
             this.toolStrip1.PerformLayout();
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
+            this.greedyPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -266,6 +310,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label introLabel;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel greedyPanel;
+        private System.Windows.Forms.Button huffmanbutton;
+        private System.Windows.Forms.Button greedyBtn;
     }
 }
 
