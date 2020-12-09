@@ -53,9 +53,14 @@
   <ItemGroup>
     <Compile Include="algorithms\AbstractAlgorithm.cs" />
     <Compile Include="algorithms\AlgorithmFactory.cs" />
+    <Compile Include="algorithms\devideconquer\CloestPairPoints.cs" />
     <Compile Include="algorithms\devideconquer\pingpong\PingPongAlgorithm.cs" />
+    <Compile Include="algorithms\dynamicprograming\ActivitySeletionDynamic.cs" />
+    <Compile Include="algorithms\greedy\ActivitySelectionGreedy.cs" />
     <Compile Include="algorithms\greedy\HuffmanCode.cs" />
     <Compile Include="algorithms\IAlgorithm.cs" />
+    <Compile Include="algorithms\InputMetaData.cs" />
+    <Compile Include="algorithms\PriorityQueue.cs" />
     <Compile Include="CreateTestCase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +73,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IInputMeta.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

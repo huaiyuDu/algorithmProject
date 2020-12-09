@@ -14,21 +14,23 @@ namespace algorithmProject.algorithms
     public abstract class AbstractAlgorithm : IAlgorithm
     {
 
-        private IExecuteObserver executeObserver;
+        protected IExecuteObserver executeObserver;
 
         private IAlgorithmInput singleInput;
 
         private List<IAlgorithmInput> batchInput;
 
         protected CancellationToken token;
+        private IInputMeta inputMeta;
 
-        public AbstractAlgorithm(IExecuteObserver executeObserver) {
+        public IInputMeta InputMeta => inputMeta;
+
+        public AbstractAlgorithm(IExecuteObserver executeObserver,string defaultSeries = "10,20,50,100,200,500,1000", string defaultN = "5") {
             if (executeObserver == null) {
                 executeObserver = new DumyExecuteObserver();
             }
             this.executeObserver = executeObserver;
-
-
+            inputMeta = new InputMetaData(defaultSeries, defaultN);
         }
 
 
@@ -41,7 +43,7 @@ namespace algorithmProject.algorithms
             try
             {
                 var startTime = DateTime.Now;
-                (string result, long rumtime) = doExecute(input);
+                string result = doExecute(input);
                 var endTime= DateTime.Now;
                 writeFile(result, input.GetInputFilePath()+".out");
                 executeObserver.printResult(result);
@@ -61,7 +63,7 @@ namespace algorithmProject.algorithms
 
 
 
-        protected abstract (string, long) doExecute(IAlgorithmInput input);
+        protected abstract string doExecute(IAlgorithmInput input);
 
         protected virtual void putCancellToken(CancellationToken token)
         {
@@ -85,7 +87,7 @@ namespace algorithmProject.algorithms
                     executeObserver.updateTask(input, index);
                     executeObserver.printDebugToConsole($"{input.GetFileName()}Start at {DateTime.Now}");
                     var startTime = DateTime.Now;
-                    (string result, long rumtime) = doExecute(input);
+                    string result = doExecute(input);
                     var endTime = DateTime.Now;
                     executeObserver.printDebugToConsole(result);
                     executeObserver.printDebugToConsole($"End at {DateTime.Now}");

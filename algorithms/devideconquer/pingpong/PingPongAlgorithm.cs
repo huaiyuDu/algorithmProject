@@ -71,11 +71,10 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
         }
 
 
-        protected override (string,long) doExecute(IAlgorithmInput input)
+        protected override string doExecute(IAlgorithmInput input)
         {
             // read input
             int[,] inputMatrix = readInput(input);
-            var startTime = DateTime.Now;
             Matrix A = new Matrix(inputMatrix);
             Matrix A_seq = A * A;
             Matrix ResM = A + A_seq;
@@ -94,8 +93,7 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                     result.Add(i);
                 }
             }
-            var endTime = DateTime.Now;
-            return (string.Join(",", result.ToArray()), (long)(endTime-startTime).TotalMilliseconds );
+            return string.Join(",", result.ToArray());
         }
 
         private int[,] readInput(IAlgorithmInput input) {

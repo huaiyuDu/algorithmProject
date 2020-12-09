@@ -18,6 +18,13 @@ namespace algorithmProject
         {
             InitializeComponent();
             this.algorithm = algorithm;
+            InitializaDefaultValues();
+ 
+        }
+
+        private void InitializaDefaultValues(){
+            nSeries.Text = algorithm.InputMeta.DefaultSeries;
+            caseNumber.Text = algorithm.InputMeta.DefaultN;
         }
 
         private void chooseOutputPathBtn_Click(object sender, EventArgs e)

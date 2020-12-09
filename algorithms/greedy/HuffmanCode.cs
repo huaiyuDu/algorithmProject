@@ -8,7 +8,7 @@ namespace algorithmProject.algorithms.greedy
 {
     class HuffmanCode : AbstractAlgorithm
     {
-        public HuffmanCode(IExecuteObserver executeObserver) : base(executeObserver)
+        public HuffmanCode(IExecuteObserver executeObserver) : base(executeObserver,"10,20,30,40,50,60")
         {
         }
 
@@ -58,19 +58,19 @@ namespace algorithmProject.algorithms.greedy
             return res;
         }
 
-        protected override (string, long) doExecute(IAlgorithmInput input)
+        protected override string doExecute(IAlgorithmInput input)
         {
             (char, int)[] inputs = readInput(input);
-            SortedSet<Node> heap = new SortedSet<Node>();
+            PriorityQueue<Node> heap = new PriorityQueue<Node>();
             foreach ((char c, int f) item in inputs) {
                 Node node = new Node();
                 node.c = item.c;
                 node.frequency = item.f;
-                heap.Add(node);
+                heap.Enqueue(node);
             }
-            while (heap.Count > 1) {
-                Node kidNode1 = heap.Pop();
-                Node kidNode2 = heap.Pop();
+            while (heap.Count() > 1) {
+                Node kidNode1 = heap.Dequeue();
+                Node kidNode2 = heap.Dequeue();
                 Node parentNode = new Node();
                 parentNode.frequency = kidNode1.frequency + kidNode1.frequency;
                 if (kidNode1.frequency < kidNode2.frequency)
@@ -82,15 +82,15 @@ namespace algorithmProject.algorithms.greedy
                     parentNode.left = kidNode2;
                     parentNode.right = kidNode1;
                 }
-                heap.Add(parentNode);
+                heap.Enqueue(parentNode);
             }
 
-            Node root = heap.Pop();
+            Node root = heap.Dequeue();
             HuffmanTree huffmanTree = new HuffmanTree(root);
             StringBuilder sb = new StringBuilder();
             huffmanTree.printEncoding(message => sb.Append(message).Append(Environment.NewLine), root, new Stack<char>());
 
-            return (sb.ToString(), 1);
+            return sb.ToString();
         }
 
 
@@ -149,13 +149,13 @@ namespace algorithmProject.algorithms.greedy
         }
     }
 
-    public static class Heap {
-        public static T Pop<T>(this SortedSet<T> sortedSet) {
-            T t = sortedSet.Min();
-            sortedSet.Remove(t);
-            return t;
-        }
-    }
+    //public static class Heap {
+    //    public static T Pop<T>(this SortedSet<T> sortedSet) {
+    //        T t = sortedSet.Min();
+    //        sortedSet.Remove(t);
+    //        return t;
+    //    }
+    //}
 
     public class Node: IComparable<Node>
     {

@@ -29,6 +29,8 @@ namespace algorithmProject.algorithms
 
         public List<IAlgorithmInput> createInputFiles(string path,string n_series, int number);
 
+        public IInputMeta InputMeta { get; }
+
     }
     public interface IAlgorithmInput
     {

@@ -34,6 +34,7 @@ namespace algorithmProject
         {
             panelDevideConquer.Visible = false;
             greedyPanel.Visible = false;
+            panelDynamicProgram.Visible = false;
             //panelplaylistsubmenu.visible = false;
             //paneltoolssubmenu.visible = false;
         }
@@ -121,6 +122,26 @@ namespace algorithmProject
         private void huffmanbutton_Click(object sender, EventArgs e)
         {
             openChildFormInPanel(createForm(AlgorithmFactory.HUFFMAN));
+        }
+
+        private void dynamicBtn_Click(object sender, EventArgs e)
+        {
+            showSubMenu(panelDynamicProgram); 
+        }
+
+        private void activitySelDynBtn_Click(object sender, EventArgs e)
+        {
+            openChildFormInPanel(createForm(AlgorithmFactory.ACTIVIT_SELECTION_DYN));
+        }
+
+        private void activitySel_Click(object sender, EventArgs e)
+        {
+            openChildFormInPanel(createForm(AlgorithmFactory.ACTIVIT_SELECTION_GREEDY));
+        }
+
+        private void closestPairPointButton_Click(object sender, EventArgs e)
+        {
+            openChildFormInPanel(createForm(AlgorithmFactory.CLOSEST_PAIR_POINTS));
         }
     }
 }
