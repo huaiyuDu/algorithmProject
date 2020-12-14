@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static algorithmProject.algorithms.AlgorithmFactory;
 
 namespace algorithmProject
 {
@@ -23,7 +24,7 @@ namespace algorithmProject
         //public CancellationToken cancellationToken;
 
         private CancellationTokenSource cancellationTokenSource;
-        public Main(string algorithmName,Form1 basicform)
+        public Main(Algorithm algorithmName,Form1 basicform)
         {
             InitializeComponent();
             observer = new UIExecuteObserver(this,basicform);

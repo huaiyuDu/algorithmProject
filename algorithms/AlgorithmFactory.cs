@@ -10,27 +10,36 @@ using System.Threading.Tasks;
 
 namespace algorithmProject.algorithms
 {
-    class AlgorithmFactory
+    public class AlgorithmFactory
     {
-        public const string PING_PONG = "pingpong";
-        public const string HUFFMAN = "huffman";
-        public const string ACTIVIT_SELECTION_DYN = "ActivitSelDyn";
-        public const string ACTIVIT_SELECTION_GREEDY = "ActivitSelGreedy";
-        public const string CLOSEST_PAIR_POINTS = "CloestPairPoints"; 
-        public static IAlgorithm getAlorithm(string name, IExecuteObserver executeObserve = null) {
+
+
+        public enum Algorithm {
+            PING_PONG,
+            HUFFMAN,
+            ACTIVIT_SELECTION_DYN,
+            ACTIVIT_SELECTION_GREEDY,
+            CLOSEST_PAIR_POINTS,
+            MULTIPLICATION_MATRICES,
+            LCS
+        }
+        public static IAlgorithm getAlorithm(Algorithm name, IExecuteObserver executeObserve = null) {
             switch (name)
             {
-                case PING_PONG:
+                case Algorithm.PING_PONG:
                     return new PingPongAlgorithm(executeObserve);
-                case HUFFMAN:
+                case Algorithm.HUFFMAN:
                     return new HuffmanCode(executeObserve);
-                case ACTIVIT_SELECTION_DYN:
+                case Algorithm.ACTIVIT_SELECTION_DYN:
                     return new ActivitySeletionDynamic(executeObserve);
-                case ACTIVIT_SELECTION_GREEDY:
+                case Algorithm.ACTIVIT_SELECTION_GREEDY:
                     return new ActivitySelectionGreedy(executeObserve);
-                case CLOSEST_PAIR_POINTS:
+                case Algorithm.CLOSEST_PAIR_POINTS:
                     return new CloestPairPoints(executeObserve);
-
+                case Algorithm.MULTIPLICATION_MATRICES:
+                    return new MultiplicationSquenceMatrix(executeObserve);
+                case Algorithm.LCS:
+                    return new LongestCommomSeqence(executeObserve);
                 default:
                     break;
             }

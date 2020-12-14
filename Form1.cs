@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static algorithmProject.algorithms.AlgorithmFactory;
 
 namespace algorithmProject
 {
@@ -21,7 +22,7 @@ namespace algorithmProject
         // 基于上面的委托定义事件
         public event TaskStatusHandler taskStatusHandler;
 
-        private Dictionary<string, Main> childForms = new Dictionary<string, Main>();
+        private Dictionary<Algorithm, Main> childForms = new Dictionary<Algorithm, Main>();
 
 
 
@@ -58,10 +59,10 @@ namespace algorithmProject
 
         private void pingpong_Click(object sender, EventArgs e)
         {
-            openChildFormInPanel(createForm(AlgorithmFactory.PING_PONG));
+            openChildFormInPanel(createForm(Algorithm.PING_PONG));
         }
 
-        private Main createForm(string algorithmName) {
+        private Main createForm(Algorithm algorithmName) {
             if (!childForms.ContainsKey(algorithmName))
             {
                 Main mianForm = new Main(algorithmName, this);
@@ -121,7 +122,7 @@ namespace algorithmProject
 
         private void huffmanbutton_Click(object sender, EventArgs e)
         {
-            openChildFormInPanel(createForm(AlgorithmFactory.HUFFMAN));
+            openChildFormInPanel(createForm(Algorithm.HUFFMAN));
         }
 
         private void dynamicBtn_Click(object sender, EventArgs e)
@@ -131,17 +132,27 @@ namespace algorithmProject
 
         private void activitySelDynBtn_Click(object sender, EventArgs e)
         {
-            openChildFormInPanel(createForm(AlgorithmFactory.ACTIVIT_SELECTION_DYN));
+            openChildFormInPanel(createForm(Algorithm.ACTIVIT_SELECTION_DYN));
         }
 
         private void activitySel_Click(object sender, EventArgs e)
         {
-            openChildFormInPanel(createForm(AlgorithmFactory.ACTIVIT_SELECTION_GREEDY));
+            openChildFormInPanel(createForm(Algorithm.ACTIVIT_SELECTION_GREEDY));
         }
 
         private void closestPairPointButton_Click(object sender, EventArgs e)
         {
-            openChildFormInPanel(createForm(AlgorithmFactory.CLOSEST_PAIR_POINTS));
+            openChildFormInPanel(createForm(Algorithm.CLOSEST_PAIR_POINTS));
+        }
+
+        private void multiplicationMatricesButton_Click(object sender, EventArgs e)
+        {
+            openChildFormInPanel(createForm(Algorithm.MULTIPLICATION_MATRICES));
+        }
+
+        private void lcsButton_Click(object sender, EventArgs e)
+        {
+            openChildFormInPanel(createForm(Algorithm.LCS));
         }
     }
 }
