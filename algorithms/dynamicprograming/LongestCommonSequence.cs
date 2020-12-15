@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace algorithmProject.algorithms.dynamicprograming
 {
-    public class LongestCommomSeqence : AbstractAlgorithm
+    public class LongestCommonSequence : AbstractAlgorithm
     {
 
         public static Random r = new Random();
@@ -17,7 +17,7 @@ namespace algorithmProject.algorithms.dynamicprograming
              UP = 2
         }
 
-        public LongestCommomSeqence(IExecuteObserver executeObserver) : base(executeObserver)
+        public LongestCommonSequence(IExecuteObserver executeObserver) : base(executeObserver)
         {
         }
 

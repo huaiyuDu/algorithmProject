@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace algorithmProject.algorithms.dynamicprograming
 {
-    public class ActivitySeletionDynamic : AbstractAlgorithm
+    public class ActivitySelectionDynamic : AbstractAlgorithm
     {
         private const int MAX_ACTIVITY_LENGTH = 10;
         private const int ACTIVITY_DENSITY_PERCENT = 30;
 
-        public ActivitySeletionDynamic(IExecuteObserver executeObserver) : base(executeObserver)
+        public ActivitySelectionDynamic(IExecuteObserver executeObserver) : base(executeObserver)
         {
         }
 

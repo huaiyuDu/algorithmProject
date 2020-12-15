@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace algorithmProject.algorithms.greedy
 {
-    class ActivitySelectionGreedy: ActivitySeletionDynamic
+    class ActivitySelectionGreedy: ActivitySelectionDynamic
     {
         public ActivitySelectionGreedy(IExecuteObserver executeObserver) : base(executeObserver)
         {

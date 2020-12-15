@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace algorithmProject.algorithms.devideconquer
 {
-    public class CloestPairPoints : AbstractAlgorithm
+    public class ClosestPairPoints : AbstractAlgorithm
     {
-        public CloestPairPoints(IExecuteObserver executeObserver) : base(executeObserver,"100,500,1000,5000,10000,50000")
+        public ClosestPairPoints(IExecuteObserver executeObserver) : base(executeObserver,"100,500,1000,5000,10000,50000")
         {
         }
 

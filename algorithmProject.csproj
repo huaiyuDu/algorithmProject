@@ -12,6 +12,23 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +51,18 @@
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>AA5098C72EEEB0744D48B08F2A36C5DAE90795EF</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>algorithmProject_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,11 +82,11 @@
   <ItemGroup>
     <Compile Include="algorithms\AbstractAlgorithm.cs" />
     <Compile Include="algorithms\AlgorithmFactory.cs" />
-    <Compile Include="algorithms\devideconquer\CloestPairPoints.cs" />
+    <Compile Include="algorithms\devideconquer\ClosestPairPoints.cs" />
     <Compile Include="algorithms\devideconquer\pingpong\PingPongAlgorithm.cs" />
-    <Compile Include="algorithms\dynamicprograming\LongestCommomSeqence.cs" />
-    <Compile Include="algorithms\dynamicprograming\MultiplicationSquenceMatrix.cs" />
-    <Compile Include="algorithms\dynamicprograming\ActivitySeletionDynamic.cs" />
+    <Compile Include="algorithms\dynamicprograming\LongestCommonSequence.cs" />
+    <Compile Include="algorithms\dynamicprograming\MultiplicationSequenceMatrix.cs" />
+    <Compile Include="algorithms\dynamicprograming\ActivitySelectionDynamic.cs" />
     <Compile Include="algorithms\greedy\ActivitySelectionGreedy.cs" />
     <Compile Include="algorithms\greedy\HuffmanCode.cs" />
     <Compile Include="algorithms\dynamicprograming\Matrix.cs" />
@@ -105,6 +134,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="algorithmProject_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -126,6 +156,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\resultset_next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

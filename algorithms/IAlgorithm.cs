@@ -64,7 +64,7 @@ namespace algorithmProject.algorithms
 
         public void printConsole(string message);
 
-        public void printResult(string result);
+        public void printResult(string result, bool cleanResult = false);
 
         public void SetStatitcis(IAlgorithmInput input, long time, int index);
 

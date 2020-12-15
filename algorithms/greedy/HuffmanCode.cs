@@ -89,7 +89,7 @@ namespace algorithmProject.algorithms.greedy
             HuffmanTree huffmanTree = new HuffmanTree(root);
             StringBuilder sb = new StringBuilder();
             huffmanTree.printEncoding(message => sb.Append(message).Append(Environment.NewLine), root, new Stack<char>());
-
+            //sb.Remove(sb.Length- Environment.NewLine.Length, Environment.NewLine.Length);
             return sb.ToString();
         }
 

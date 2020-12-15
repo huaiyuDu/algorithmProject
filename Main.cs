@@ -59,7 +59,7 @@ namespace algorithmProject
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Multiselect = false;
             fileDialog.Title = "please select input files";
-            fileDialog.Filter = "input file(*.txt)|*.txt";
+            fileDialog.Filter = "input file(*.input)|*.input";
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 algorithm.SetInputSingleFiles(new BaseAlgorithmInput(fileDialog.FileName));
@@ -102,7 +102,7 @@ namespace algorithmProject
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = true;
             dialog.Title = "choose input files";
-            dialog.Filter = "all files(*.txt)|*.txt";
+            dialog.Filter = "all files(*.input)|*.input";
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 //string file = dialog.FileName;
@@ -251,9 +251,12 @@ namespace algorithmProject
             basicform.textBoxLogs.ScrollToCaret();
         }
 
-        public void printResult(string result)
+        public void printResult(string result, bool cleanResult = false)
         {
             Console.WriteLine(result);
+            if (cleanResult) {
+                mainform.outputTextBox.Text = "";
+            }
             mainform.outputTextBox.AppendText(result);
             mainform.outputTextBox.AppendText(Environment.NewLine);
             mainform.outputTextBox.ScrollToCaret();

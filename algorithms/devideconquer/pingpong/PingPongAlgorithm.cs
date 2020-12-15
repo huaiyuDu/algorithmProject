@@ -9,7 +9,9 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
 {
     public class PingPongAlgorithm : AbstractAlgorithm
     {
-
+        /**
+         * Task cancellation token for stop the algorithm. 
+         */
         protected static CancellationToken current_token = CancellationToken.None;
 
         public PingPongAlgorithm(IExecuteObserver executeObserve) : base(executeObserve)
@@ -40,9 +42,12 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
             {
                 for (int j = i; j < n; j++) {
                     if (i == j) {
+                        // A [i,i] = 0
                         inputMatrix[i, j] = 0;
                     } else {
+                        // value = 0 or 1
                         int value = rand.Next() % 2;
+                        // if A [i,j] = 0, then A [j,i] =1, vice versa
                         inputMatrix[i, j] = value;
                         inputMatrix[j, i] = value == 1? 0: 1;
                     }
@@ -96,6 +101,9 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
             return string.Join(",", result.ToArray());
         }
 
+        /**
+         * read input file to a Matrix
+         */
         private int[,] readInput(IAlgorithmInput input) {
             string[] lines = System.IO.File.ReadAllLines(input.GetInputFilePath());
             int n = int.Parse(lines[0]);
@@ -114,6 +122,10 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
         {
             current_token = token;
         }
+
+        /**
+         * Matrix class to implis the fast multiplication
+         */
         public class Matrix {
             private int[,] data;
 
@@ -150,6 +162,7 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
             }
 
             public static Matrix operator * (Matrix a, Matrix b) {
+                // check if the task canceled from UI
                 if (current_token.IsCancellationRequested){
                     throw new TaskCanceledException("task canceled");
                 }
@@ -217,11 +230,15 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                 return new Matrix(data);
             }
 
+            /**
+             * divide a matrix into 4 small matrix
+             */
             public (Matrix, Matrix, Matrix, Matrix) divide()
             {
 
                 int size = this.Size;
                 bool append = false;
+                // if the size is odd, need to append 0 to the last row and the last column
                 if (size % 2 == 1)
                 {
                     size = size + 1;
@@ -242,8 +259,10 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                         {
                             data11[i, j] = data[i, j];
                         }
+                        // A21
                         else if (i >= halfSize && j < halfSize)
                         {
+                            // append 0 to the last row
                             if (append && i == size - 1)
                             {
                                 data21[i - halfSize, j] = 0;
@@ -254,8 +273,10 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                             }
 
                         }
+                        // A12
                         else if (i < halfSize && j >= halfSize)
                         {
+                            // append 0 to the last column
                             if (append && j == size - 1)
                             {
                                 data12[i, j - halfSize] = 0;
@@ -265,8 +286,10 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                                 data12[i, j - halfSize] = data[i, j];
                             }
                         }
+                        // A22
                         else if (i >= halfSize && j >= halfSize)
                         {
+                            // append 0 to the last row and the last column
                             if (append && (i == size - 1 || j == size - 1))
                             {
                                 data22[i - halfSize, j - halfSize] = 0;
@@ -283,6 +306,10 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                 return (new Matrix(data11), new Matrix(data12), new Matrix(data21), new Matrix(data22));
             }
 
+            /**
+             * calculate the half size of a matrix
+             * and return if the size is a odd number
+             */
             private static (int,bool) getHalfSize(int size) {
                 bool odd = false;
                 if (size % 2 == 1)
@@ -293,6 +320,10 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                 int halfSize = size / 2;
                 return (halfSize,odd);
             }
+
+            /**
+             * combine 4 small matrix into a big matrix
+             */
             public static Matrix combine(Matrix a11, Matrix a12,Matrix a21, Matrix a22,int size)
             {
                 int[,] data = new int[size, size];

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace algorithmProject.algorithms.dynamicprograming
 {
-    public class MultiplicationSquenceMatrix : AbstractAlgorithm
+    public class MultiplicationSequenceMatrix : AbstractAlgorithm
     {
         private const int MAX_SIZE = 1000;
 
-        public MultiplicationSquenceMatrix(IExecuteObserver executeObserver) : base(executeObserver)
+        public MultiplicationSequenceMatrix(IExecuteObserver executeObserver) : base(executeObserver)
         {
         }
 

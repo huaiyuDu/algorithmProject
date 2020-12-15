@@ -31,15 +31,15 @@ namespace algorithmProject.algorithms
                 case Algorithm.HUFFMAN:
                     return new HuffmanCode(executeObserve);
                 case Algorithm.ACTIVIT_SELECTION_DYN:
-                    return new ActivitySeletionDynamic(executeObserve);
+                    return new ActivitySelectionDynamic(executeObserve);
                 case Algorithm.ACTIVIT_SELECTION_GREEDY:
                     return new ActivitySelectionGreedy(executeObserve);
                 case Algorithm.CLOSEST_PAIR_POINTS:
-                    return new CloestPairPoints(executeObserve);
+                    return new ClosestPairPoints(executeObserve);
                 case Algorithm.MULTIPLICATION_MATRICES:
-                    return new MultiplicationSquenceMatrix(executeObserve);
+                    return new MultiplicationSequenceMatrix(executeObserve);
                 case Algorithm.LCS:
-                    return new LongestCommomSeqence(executeObserve);
+                    return new LongestCommonSequence(executeObserve);
                 default:
                     break;
             }

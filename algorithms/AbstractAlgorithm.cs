@@ -45,10 +45,11 @@ namespace algorithmProject.algorithms
                 var startTime = DateTime.Now;
                 string result = doExecute(input);
                 var endTime= DateTime.Now;
-                writeFile(result, input.GetInputFilePath()+".out");
-                executeObserver.printResult(result);
+                writeFile(result, input.GetInputFilePath().Replace(".input", ".output"));
+                executeObserver.printResult("execute result:  "+result, true);
                 executeObserver.printDebugToConsole($"End at {DateTime.Now}");
                 executeObserver.SetStatitcis(GetInputSingleFiles(), (long)(endTime - startTime).TotalMilliseconds, -1);
+                test(result, input.GetInputFilePath().Replace(".input", ".result"));
             }
             catch (OperationCanceledException E)
             {
@@ -106,6 +107,29 @@ namespace algorithmProject.algorithms
             
         }
 
+        private void test(string result,string resultFilePath) {
+            try {
+                using (StreamReader sw = new StreamReader(resultFilePath))
+                {
+                    string expectResult = sw.ReadToEnd();
+                    executeObserver.printResult($"expected result: {expectResult}");
+                    if (expectResult.TrimEnd(Environment.NewLine.ToCharArray()).Equals(result.TrimEnd(Environment.NewLine.ToCharArray())))
+                    {
+                        executeObserver.printResult($"Test Result: True");
+                    }
+                    else {
+                        executeObserver.printResult($"Test Result: False");
+                    }
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                executeObserver.printResult($"No expect result file");
+            }
+            
+
+        }
+
         protected void writeFile(string result, string fileName) {
             using (StreamWriter sw = new StreamWriter(fileName))
             {
@@ -149,7 +173,7 @@ namespace algorithmProject.algorithms
             foreach (string nstr in series) {
                 long n = long.Parse(nstr);
                 for (int i= 0; i < number; i++) {
-                    string fileName = $"{path}{Path.DirectorySeparatorChar}{GetAlgorithmName()}_{n}_{index}.txt";
+                    string fileName = $"{path}{Path.DirectorySeparatorChar}{GetAlgorithmName()}_{n}_{index}.input";
                     createInputFile(fileName,n);
                     executeObserver.printDebugToConsole($"{fileName} created");
                     index++;
@@ -252,7 +276,7 @@ namespace algorithmProject.algorithms
             Console.WriteLine(message);
         }
 
-        public void printResult(string result)
+        public void printResult(string result,bool cleanResult)
         {
             Console.WriteLine(result);
         }
