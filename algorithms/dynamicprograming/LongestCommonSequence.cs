@@ -49,7 +49,7 @@ namespace algorithmProject.algorithms.dynamicprograming
 
             int m = X.Length;
             int n = Y.Length;
-            input.setN(m);
+            input.N = m;
             int[,] C = new int[m + 1, n + 1];
             Matrix<Direction> L= new Matrix<Direction>(new Direction[m, n]);
             for (int i = 1; i <= m; i++)
@@ -104,7 +104,7 @@ namespace algorithmProject.algorithms.dynamicprograming
                         break;
                 }
             }
-            return input.GetFileName()+ " : "+getResult(result);
+            return input.FileName+ " : "+getResult(result);
         }
 
         private string RandomString(long length, string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
@@ -128,7 +128,7 @@ namespace algorithmProject.algorithms.dynamicprograming
         
         protected (char[] X, char[] Y) readInput(IAlgorithmInput input)
         {
-            string[] lines = System.IO.File.ReadAllLines(input.GetInputFilePath());
+            string[] lines = System.IO.File.ReadAllLines(input.InputFilePath);
             return (lines[0].ToCharArray(), lines[1].ToCharArray());
         }
     }

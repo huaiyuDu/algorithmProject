@@ -21,13 +21,15 @@ namespace algorithmProject.algorithms
             ACTIVIT_SELECTION_GREEDY,
             CLOSEST_PAIR_POINTS,
             MULTIPLICATION_MATRICES,
-            LCS
+            LCS,
+            PING_PONG_NAIVE
         }
         public static IAlgorithm getAlorithm(Algorithm name, IExecuteObserver executeObserve = null) {
             switch (name)
             {
                 case Algorithm.PING_PONG:
-                    return new PingPongAlgorithm(executeObserve);
+                    //return new PingPongAlgorithm(executeObserve);
+                    return new PingPongAlgorithm(executeObserve); 
                 case Algorithm.HUFFMAN:
                     return new HuffmanCode(executeObserve);
                 case Algorithm.ACTIVIT_SELECTION_DYN:

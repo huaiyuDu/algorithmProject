@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -40,6 +40,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -83,6 +84,8 @@
     <Compile Include="algorithms\AbstractAlgorithm.cs" />
     <Compile Include="algorithms\AlgorithmFactory.cs" />
     <Compile Include="algorithms\devideconquer\ClosestPairPoints.cs" />
+    <Compile Include="algorithms\devideconquer\pingpong\PingPongAlgorithmNew.cs" />
+    <Compile Include="algorithms\devideconquer\pingpong\PingPongAlgorithmNaive.cs" />
     <Compile Include="algorithms\devideconquer\pingpong\PingPongAlgorithm.cs" />
     <Compile Include="algorithms\dynamicprograming\LongestCommonSequence.cs" />
     <Compile Include="algorithms\dynamicprograming\MultiplicationSequenceMatrix.cs" />
@@ -112,7 +115,6 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CreateTestCase.resx">

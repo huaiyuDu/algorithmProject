@@ -45,9 +45,9 @@ namespace algorithmProject.algorithms.greedy
 
         private (char, int)[] readInput(IAlgorithmInput input)
         {
-            string[] lines = System.IO.File.ReadAllLines(input.GetInputFilePath());
+            string[] lines = System.IO.File.ReadAllLines(input.InputFilePath);
             int n = int.Parse(lines[0]);
-            input.setN(n);
+            input.N = n;
             (char, int)[] res = new (char, int)[n];
             for (int i = 1; i < lines.Length; i++)
             {

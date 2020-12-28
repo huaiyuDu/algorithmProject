@@ -28,7 +28,6 @@ namespace algorithmProject
         {
             InitializeComponent();
             observer = new UIExecuteObserver(this,basicform);
-            // TODO factory
             algorithm = AlgorithmFactory.getAlorithm(algorithmName, observer);
 
             InitializeValues();
@@ -42,6 +41,13 @@ namespace algorithmProject
 
         private void InitializeValues() {
             alrorithmNameText.Text = algorithm.GetAlgorithmName();
+            if (algorithm.supportCompairAlogirthm())
+            {
+                checkBoxExecuteCompair.Visible = true;
+            }
+            else {
+                checkBoxExecuteCompair.Visible = false; 
+            }
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -116,19 +122,14 @@ namespace algorithmProject
             }
         }
         private void showFileList() {
-            this.fileListView.BeginUpdate();   //数据更新，UI暂时挂起，直到EndUpdate绘制控件，可以有效避免闪烁并大大提高加载速度
+            this.fileListView.BeginUpdate();  
             this.fileListView.Items.Clear();
             List<IAlgorithmInput> list = algorithm.GetBatchInputFiles();
 
-            foreach (IAlgorithmInput input in list)   //添加10行数据
+            foreach (IAlgorithmInput input in list)   
             {
                 ListViewItem lvi = new ListViewItem();
-
-                //lvi.ImageIndex = i;     //通过与imageList绑定，显示imageList中第i项图标
                 renderListVieTime(lvi, input);
-
-
-
                 this.fileListView.Items.Add(lvi);
             }
 
@@ -137,20 +138,30 @@ namespace algorithmProject
 
         public static void renderListVieTime(ListViewItem lvi, IAlgorithmInput input)
         {
-            lvi.Text = input.GetFileName();
-            lvi.SubItems.Add(input.getN() != null ? input.getN().ToString() : "-");
-            lvi.SubItems.Add(input.GetExecuteTime() != null ? input.GetExecuteTime().ToString() : "-");
-            (bool? res, string desc) = input.GetResult();
+            lvi.Text = input.FileName;
+            lvi.SubItems.Add(input.N != null ? input.N.ToString() : "-");
+            lvi.SubItems.Add(input.ExecuteTime != null ? input.ExecuteTime.ToString() : "-");
+            (bool? res, string desc) = input.Result;
             lvi.SubItems.Add(desc != null ? desc : "waiting");
         }
 
         private void executeBatchBtn_Click(object sender, EventArgs e)
         {
+
+
             if (algorithm.GetBatchInputFiles() == null)
             {
                 MessageBox.Show("please choose batch input files!", "Input Missing", MessageBoxButtons.OK,
                     MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                 return;
+            }
+
+            foreach (IAlgorithmInput input in algorithm.GetBatchInputFiles())
+            {
+                input.N = null;
+                input.ExecuteTime = null;
+                input.Result = (false,"waiting");
+
             }
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = cancellationTokenSource.Token;
@@ -160,7 +171,7 @@ namespace algorithmProject
             Task currentTask = Task.Factory.StartNew(() =>
             {
                 Control.CheckForIllegalCrossThreadCalls = false;
-                algorithm.executeBatch(progress,cancellationToken);
+                algorithm.executeBatch(progress,cancellationToken, checkBoxExecuteCompair.Checked);
             }).ContinueWith((t) =>
             {
                 System.Console.WriteLine("Done!");
@@ -182,6 +193,11 @@ namespace algorithmProject
                 cancellationTokenSource.Cancel();
             }
         }
+
+        private void chart_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 
@@ -198,25 +214,26 @@ namespace algorithmProject
 
         }
 
-        public void BatchFinished(List<IAlgorithmInput> batchInputs)
+        public void BatchFinished(List<IAlgorithmInput> batchInputs, bool executeComparison)
         {
+            string seriesName = executeComparison ? "comparison runtime" : "runtime";
             basicform.toolStripStopButton.Enabled = false;
             mainform.executeBatchBtn.Enabled = true; 
-            mainform.chart.Series["runtime"].Points.Clear();
+            mainform.chart.Series[seriesName].Points.Clear();
             Dictionary<long, List<long>> map = new Dictionary<long, List<long>>();
             foreach (IAlgorithmInput input in batchInputs) {
-                if (input.getN() == null || input.GetExecuteTime() == null)
+                if (input.N == null || input.ExecuteTime == null)
                 {
                     continue;
                 }
-                long key = input.getN()??0;
+                long key = input.N??0;
                 if (map.ContainsKey(key))
                 {
-                    map[key].Add(input.GetExecuteTime() ?? 0);
+                    map[key].Add(input.ExecuteTime ?? 0);
                 }
                 else {
                     List<long> timeList = new List<long>();
-                    timeList.Add(input.GetExecuteTime() ?? 0);
+                    timeList.Add(input.ExecuteTime ?? 0);
                     map[key] = timeList;
                 }
             }
@@ -229,9 +246,10 @@ namespace algorithmProject
                 }
                 long avg = sum / timeList.Count();
 
-                mainform.chart.Series["runtime"].Points.AddXY(key, avg);
+                mainform.chart.Series[seriesName].Points.AddXY(key, avg);
 
             }
+            mainform.chart.Update();
             basicform.progressBar.Value = 0;
         }
 
@@ -269,8 +287,8 @@ namespace algorithmProject
 
         public void SetStatitcis(IAlgorithmInput input, long time, int index = -1)
         {
-            input.SetExecuteTime(time);
-            input.SetResult(true, "Finished");
+            input.ExecuteTime=time;
+            input.Result=(true, "Finished");
             if (index != -1) {
                 // update list
                 updateTask(input, index);
@@ -293,7 +311,7 @@ namespace algorithmProject
 
         public void startBatchTask()
         {
-            mainform.chart.Series["runtime"].Points.Clear();
+            //mainform.chart.Series["runtime"].Points.Clear();
             basicform.toolStripStopButton.Enabled = true;
             mainform.executeBatchBtn.Enabled = false; 
         }
@@ -303,12 +321,12 @@ namespace algorithmProject
             if (index != -1)
             {
                 // update list
-                mainform.fileListView.BeginUpdate();   //数据更新，UI暂时挂起，直到EndUpdate绘制控件，可以有效避免闪烁并大大提高加载速度
+                mainform.fileListView.BeginUpdate();  
                 ListViewItem lvi = mainform.fileListView.Items[index];
                 //lvi.Text = input.GetFileName();
-                lvi.SubItems[1].Text = input.getN() != null ? input.getN().ToString() : "-";
-                lvi.SubItems[2].Text = input.GetExecuteTime() != null ? input.GetExecuteTime().ToString() : "-";
-                (bool? res, string desc) = input.GetResult();
+                lvi.SubItems[1].Text = input.N != null ? input.N.ToString() : "-";
+                lvi.SubItems[2].Text = input.ExecuteTime != null ? input.ExecuteTime.ToString() : "-";
+                (bool? res, string desc) = input.Result;
                 lvi.SubItems[3].Text = desc != null ? desc : "waiting";
                 mainform.fileListView.EndUpdate();
             }

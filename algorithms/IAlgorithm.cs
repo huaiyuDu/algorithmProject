@@ -12,10 +12,11 @@ namespace algorithmProject.algorithms
 
         public string GetAlgorithmName();
 
+        public bool supportCompairAlogirthm();
 
         public void execute(CancellationToken token);
 
-        public void executeBatch(IProgress<int> progress, CancellationToken token);
+        public void executeBatch(IProgress<int> progress, CancellationToken token, bool executeCompair = false);
 
         public void executeBatch();
 
@@ -34,27 +35,18 @@ namespace algorithmProject.algorithms
     }
     public interface IAlgorithmInput
     {
-        //public void init();
 
-        //public void release();
+        public abstract bool ExecuteCompairAlgorithm { get; set; }
 
-        public string GetInputFilePath();
+        public abstract long? ExecuteTime { get; set; }
 
-        public string GetFileName();
+        public abstract long? N { get; set; }
 
-        public void SetResult(bool res, string description);
+        public abstract (bool? res, string description) Result { get; set; }
 
-        public void SetExecuteTime(long time);
+        public abstract string InputFilePath { get; }
 
-        public long? GetExecuteTime();
-
-        public long? getN();
-
-        public void setN(long n);
-
-        public (bool? res, string description) GetResult();
-
-
+        public abstract string FileName { get; }
     }
 
     public interface IExecuteObserver {
@@ -70,7 +62,7 @@ namespace algorithmProject.algorithms
 
         public void updateTask(IAlgorithmInput input, int index);
 
-        public void BatchFinished(List<IAlgorithmInput> batchInputs);
+        public void BatchFinished(List<IAlgorithmInput> batchInputs, bool executeComparison);
 
         public void setPercentage(int percentage);
 

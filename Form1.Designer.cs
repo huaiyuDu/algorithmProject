@@ -86,7 +86,7 @@
             this.panelDynamicProgram.Controls.Add(this.multiplicationMatricesButton);
             this.panelDynamicProgram.Controls.Add(this.activitySelDynBtn);
             this.panelDynamicProgram.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelDynamicProgram.Location = new System.Drawing.Point(0, 399);
+            this.panelDynamicProgram.Location = new System.Drawing.Point(0, 376);
             this.panelDynamicProgram.Name = "panelDynamicProgram";
             this.panelDynamicProgram.Size = new System.Drawing.Size(186, 122);
             this.panelDynamicProgram.TabIndex = 8;
@@ -135,7 +135,7 @@
             this.dynamicBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.dynamicBtn.Dock = System.Windows.Forms.DockStyle.Top;
             this.dynamicBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.dynamicBtn.Location = new System.Drawing.Point(0, 359);
+            this.dynamicBtn.Location = new System.Drawing.Point(0, 336);
             this.dynamicBtn.Name = "dynamicBtn";
             this.dynamicBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.dynamicBtn.Size = new System.Drawing.Size(186, 40);
@@ -150,9 +150,9 @@
             this.greedyPanel.Controls.Add(this.activitySel);
             this.greedyPanel.Controls.Add(this.huffmanbutton);
             this.greedyPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.greedyPanel.Location = new System.Drawing.Point(0, 265);
+            this.greedyPanel.Location = new System.Drawing.Point(0, 256);
             this.greedyPanel.Name = "greedyPanel";
-            this.greedyPanel.Size = new System.Drawing.Size(186, 94);
+            this.greedyPanel.Size = new System.Drawing.Size(186, 80);
             this.greedyPanel.TabIndex = 6;
             // 
             // activitySel
@@ -186,7 +186,7 @@
             this.greedyBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.greedyBtn.Dock = System.Windows.Forms.DockStyle.Top;
             this.greedyBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.greedyBtn.Location = new System.Drawing.Point(0, 225);
+            this.greedyBtn.Location = new System.Drawing.Point(0, 216);
             this.greedyBtn.Name = "greedyBtn";
             this.greedyBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.greedyBtn.Size = new System.Drawing.Size(186, 40);
@@ -203,7 +203,7 @@
             this.panelDevideConquer.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelDevideConquer.Location = new System.Drawing.Point(0, 140);
             this.panelDevideConquer.Name = "panelDevideConquer";
-            this.panelDevideConquer.Size = new System.Drawing.Size(186, 85);
+            this.panelDevideConquer.Size = new System.Drawing.Size(186, 76);
             this.panelDevideConquer.TabIndex = 4;
             // 
             // closestPairPointButton

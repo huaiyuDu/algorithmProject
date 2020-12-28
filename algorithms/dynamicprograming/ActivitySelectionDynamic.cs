@@ -97,9 +97,9 @@ namespace algorithmProject.algorithms.dynamicprograming
 
         protected List<Activity> readInput(IAlgorithmInput input)
         {
-            string[] lines = System.IO.File.ReadAllLines(input.GetInputFilePath());
+            string[] lines = System.IO.File.ReadAllLines(input.InputFilePath);
             int n = int.Parse(lines[0]);
-            input.setN(n);
+            input.N = n;
             List<Activity> result = new List<Activity>(n+2);
             result.Add(new Activity(0, 0));
             for (int i = 1; i < lines.Length; i++)

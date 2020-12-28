@@ -21,6 +21,7 @@ namespace algorithmProject.algorithms
         private List<IAlgorithmInput> batchInput;
 
         protected CancellationToken token;
+
         private IInputMeta inputMeta;
 
         public IInputMeta InputMeta => inputMeta;
@@ -38,18 +39,18 @@ namespace algorithmProject.algorithms
             IAlgorithmInput input = GetInputSingleFiles();
             putCancellToken(token);
             executeObserver.startTask();
-            executeObserver.printDebugToConsole($"{input.GetFileName()}Start at {DateTime.Now}");
+            executeObserver.printDebugToConsole($"[{input.FileName}] Start at {DateTime.Now}");
              
             try
             {
                 var startTime = DateTime.Now;
                 string result = doExecute(input);
                 var endTime= DateTime.Now;
-                writeFile(result, input.GetInputFilePath().Replace(".input", ".output"));
+                writeFile(result, input.InputFilePath.Replace(".input", ".output"));
                 executeObserver.printResult("execute result:  "+result, true);
-                executeObserver.printDebugToConsole($"End at {DateTime.Now}");
+                executeObserver.printDebugToConsole($"[{input.FileName}] End at {DateTime.Now}");
                 executeObserver.SetStatitcis(GetInputSingleFiles(), (long)(endTime - startTime).TotalMilliseconds, -1);
-                test(result, input.GetInputFilePath().Replace(".input", ".result"));
+                test(result, input.InputFilePath.Replace(".input", ".result"));
             }
             catch (OperationCanceledException E)
             {
@@ -70,7 +71,8 @@ namespace algorithmProject.algorithms
         {
         }
 
-        public void executeBatch(IProgress<int> progress, CancellationToken token){
+        public void executeBatch(IProgress<int> progress, CancellationToken token, bool executeCompair = false)
+        {
             this.token = token;
             putCancellToken(token);
             executeObserver.startBatchTask();
@@ -84,14 +86,15 @@ namespace algorithmProject.algorithms
                     {
                         break;
                     }
-                    input.SetResult(true, "start");
+                    input.Result=(true, "start");
                     executeObserver.updateTask(input, index);
-                    executeObserver.printDebugToConsole($"{input.GetFileName()}Start at {DateTime.Now}");
+                    executeObserver.printDebugToConsole($"[{input.FileName}] Start at {DateTime.Now}");
                     var startTime = DateTime.Now;
+                    input.ExecuteCompairAlgorithm = executeCompair;
                     string result = doExecute(input);
                     var endTime = DateTime.Now;
                     executeObserver.printDebugToConsole(result);
-                    executeObserver.printDebugToConsole($"End at {DateTime.Now}");
+                    executeObserver.printDebugToConsole($"[{input.FileName}] End at {DateTime.Now}");
                     executeObserver.SetStatitcis(input, (long)(endTime - startTime).TotalMilliseconds, index);
                     index = index + 1;
                     progress.Report(index * 100 / batchInputs.Count);
@@ -102,7 +105,7 @@ namespace algorithmProject.algorithms
                 executeObserver.printConsole(E.Message);
             }
             finally {
-                executeObserver.BatchFinished(batchInputs);
+                executeObserver.BatchFinished(batchInputs, executeCompair);
             }
             
         }
@@ -122,7 +125,7 @@ namespace algorithmProject.algorithms
                     }
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
                 executeObserver.printResult($"No expect result file");
             }
@@ -184,6 +187,11 @@ namespace algorithmProject.algorithms
 
         }
         protected abstract string createInputFile(string fileName, long n);
+
+        public virtual bool supportCompairAlogirthm()
+        {
+            return false;
+        }
     }
 
     public class BaseAlgorithmInput : AbstractAlgorithmInput {
@@ -212,54 +220,29 @@ namespace algorithmProject.algorithms
 
         private bool? res = null;
 
-        private long? time = null;
+        private long? executeTime = null;
 
         private long? n;
 
+        private bool executeCompairAlgorithm;
+
+        public bool ExecuteCompairAlgorithm { 
+            get => executeCompairAlgorithm; 
+            set => executeCompairAlgorithm = value; }
+
+        public long? ExecuteTime { 
+            get => executeTime; 
+            set => executeTime = value; }
+
+        public long? N { get => n; set => n = value; }
+        public (bool? res, string description) Result { get => (res, description); set  { res = value.res; this.description = value.description; } }
+
+        public string InputFilePath => filePath;
+
+        public string FileName => filePath.Substring(filePath.LastIndexOf(Path.DirectorySeparatorChar) + 1);
 
         public AbstractAlgorithmInput(string filePath) {
             this.filePath = filePath;
-        }
-
-        public string GetInputFilePath()
-        {
-            return filePath;
-        }
-
-        public void SetResult(bool res, string description)
-        {
-            this.res = res;
-            this.description = description;
-        }
-
-        public void SetExecuteTime(long time)
-        {
-            this.time = time;
-        }
-
-        public string GetFileName()
-        {
-            return filePath.Substring(filePath.LastIndexOf(Path.DirectorySeparatorChar)+1);
-        }
-
-        public long? GetExecuteTime()
-        {
-            return time;
-        }
-
-        public long? getN()
-        {
-            return n;
-        }
-
-        public void setN(long n)
-        {
-            this.n = n;
-        }
-
-        public (bool? res, string description) GetResult()
-        {
-            return (res, description);
         }
     }
 
@@ -323,6 +306,11 @@ namespace algorithmProject.algorithms
         }
 
         public void finishTask()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BatchFinished(List<IAlgorithmInput> batchInputs, bool executeComparison)
         {
             throw new NotImplementedException();
         }

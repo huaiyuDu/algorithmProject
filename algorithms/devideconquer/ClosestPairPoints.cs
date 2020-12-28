@@ -176,9 +176,9 @@ namespace algorithmProject.algorithms.devideconquer
 
         private List<Point> readInput(IAlgorithmInput input)
         {
-            string[] lines = System.IO.File.ReadAllLines(input.GetInputFilePath());
+            string[] lines = System.IO.File.ReadAllLines(input.InputFilePath);
             int n = int.Parse(lines[0]);
-            input.setN(n);
+            input.N = n;
             List<Point> result = new List<Point>(n);
             for (int i = 1; i < lines.Length; i++)
             {

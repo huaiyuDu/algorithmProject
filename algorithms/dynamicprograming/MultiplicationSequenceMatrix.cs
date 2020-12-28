@@ -74,7 +74,7 @@ namespace algorithmProject.algorithms.dynamicprograming
             //executeObserver.printConsole(string.Format("total activity count = {0}",c[0,n-1]));
 
 
-            return input.GetFileName()+ " : "+getResult(s,1, n);
+            return input.FileName+ " : "+getResult(s,1, n);
         }
 
         public string getResult(Matrix<int> s, int i, int j) {
@@ -88,9 +88,9 @@ namespace algorithmProject.algorithms.dynamicprograming
        
         protected int[] readInput(IAlgorithmInput input)
         {
-            string[] lines = System.IO.File.ReadAllLines(input.GetInputFilePath());
+            string[] lines = System.IO.File.ReadAllLines(input.InputFilePath);
             int n = int.Parse(lines[0]);
-            input.setN(n);
+            input.N = n;
             int[] p = new int[n + 1];
 
             for (int i = 1; i < lines.Length; i++)

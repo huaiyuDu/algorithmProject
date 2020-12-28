@@ -31,9 +31,11 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.tabBatch = new System.Windows.Forms.TabPage();
             this.panelPlot = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panelChoosedFiles = new System.Windows.Forms.Panel();
             this.fileListView = new System.Windows.Forms.ListView();
@@ -42,6 +44,7 @@
             this.time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Result = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBoxExecuteCompair = new System.Windows.Forms.CheckBox();
             this.executeBatchBtn = new System.Windows.Forms.Button();
             this.buttonChooseBatch = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -79,12 +82,23 @@
             // 
             // panelPlot
             // 
+            this.panelPlot.Controls.Add(this.label3);
             this.panelPlot.Controls.Add(this.chart);
             this.panelPlot.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPlot.Location = new System.Drawing.Point(403, 56);
             this.panelPlot.Name = "panelPlot";
             this.panelPlot.Size = new System.Drawing.Size(386, 365);
             this.panelPlot.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(149, 12);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Performance Presentation";
             // 
             // chart
             // 
@@ -99,12 +113,19 @@
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             series1.Legend = "Legend1";
             series1.Name = "runtime";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Color = System.Drawing.Color.DarkRed;
+            series2.Legend = "Legend1";
+            series2.Name = "comparison runtime";
             this.chart.Series.Add(series1);
+            this.chart.Series.Add(series2);
             this.chart.Size = new System.Drawing.Size(386, 365);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart1";
             title1.Name = "line chart";
             this.chart.Titles.Add(title1);
+            this.chart.Click += new System.EventHandler(this.chart_Click);
             // 
             // panelChoosedFiles
             // 
@@ -151,6 +172,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.checkBoxExecuteCompair);
             this.panel1.Controls.Add(this.executeBatchBtn);
             this.panel1.Controls.Add(this.buttonChooseBatch);
             this.panel1.Controls.Add(this.button2);
@@ -159,6 +181,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(786, 53);
             this.panel1.TabIndex = 1;
+            // 
+            // checkBoxExecuteCompair
+            // 
+            this.checkBoxExecuteCompair.AutoSize = true;
+            this.checkBoxExecuteCompair.Location = new System.Drawing.Point(284, 19);
+            this.checkBoxExecuteCompair.Name = "checkBoxExecuteCompair";
+            this.checkBoxExecuteCompair.Size = new System.Drawing.Size(234, 16);
+            this.checkBoxExecuteCompair.TabIndex = 1;
+            this.checkBoxExecuteCompair.Text = "execute comparison alorithm, O(n^3)";
+            this.checkBoxExecuteCompair.UseVisualStyleBackColor = true;
+            this.checkBoxExecuteCompair.Visible = false;
             // 
             // executeBatchBtn
             // 
@@ -317,9 +350,11 @@
             this.Load += new System.EventHandler(this.Main_Load);
             this.tabBatch.ResumeLayout(false);
             this.panelPlot.ResumeLayout(false);
+            this.panelPlot.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.panelChoosedFiles.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabSingle.ResumeLayout(false);
@@ -352,5 +387,7 @@
         public System.Windows.Forms.Button executeBatchBtn;
         public System.Windows.Forms.Button singleExeBtn;
         public System.Windows.Forms.TabControl tabSingle;
+        private System.Windows.Forms.CheckBox checkBoxExecuteCompair;
+        private System.Windows.Forms.Label label3;
     }
 }

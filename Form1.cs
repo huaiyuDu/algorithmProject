@@ -19,8 +19,7 @@ namespace algorithmProject
 
         public delegate void TaskStatusHandler(string status);
 
-        // 基于上面的委托定义事件
-        public event TaskStatusHandler taskStatusHandler;
+        public event TaskStatusHandler taskStatusHandler = null;
 
         private Dictionary<Algorithm, Main> childForms = new Dictionary<Algorithm, Main>();
 
@@ -99,10 +98,7 @@ namespace algorithmProject
 
         private void toolStripStopButton_Click(object sender, EventArgs e)
         {
-            if (taskStatusHandler != null)
-            {
-                taskStatusHandler("cancel");
-            }
+            taskStatusHandler?.Invoke("cancel");
         }
 
         private void progressBar_Click(object sender, EventArgs e)
@@ -153,6 +149,11 @@ namespace algorithmProject
         private void lcsButton_Click(object sender, EventArgs e)
         {
             openChildFormInPanel(createForm(Algorithm.LCS));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            openChildFormInPanel(createForm(Algorithm.PING_PONG_NAIVE));
         }
     }
 }

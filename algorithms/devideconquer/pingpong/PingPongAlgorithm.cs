@@ -81,7 +81,16 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
             // read input
             int[,] inputMatrix = readInput(input);
             Matrix A = new Matrix(inputMatrix);
-            Matrix A_seq = A * A;
+            Matrix A_seq;
+            if (input.ExecuteCompairAlgorithm)
+            {
+                A_seq = Matrix.naiveMultiplication(A,A);
+            }
+            else
+            {
+                A_seq = A * A;
+            }
+            
             Matrix ResM = A + A_seq;
             List<int> result = new List<int>();
             for (int i = 0; i < A.Size; i++)
@@ -89,25 +98,38 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                 bool hasX = true;
                 for (int j = 0; j < A.Size; j++)
                 {
-                    
-                    if (i != j && ResM[i,j] == 0) {
+
+                    if (i != j && ResM[i, j] == 0)
+                    {
                         hasX = false;
                     }
                 }
-                if (hasX) {
+                if (hasX)
+                {
                     result.Add(i);
                 }
             }
             return string.Join(",", result.ToArray());
+            
+            
+        }
+
+
+
+        
+
+        public override bool supportCompairAlogirthm()
+        {
+            return true;
         }
 
         /**
          * read input file to a Matrix
          */
         private int[,] readInput(IAlgorithmInput input) {
-            string[] lines = System.IO.File.ReadAllLines(input.GetInputFilePath());
+            string[] lines = System.IO.File.ReadAllLines(input.InputFilePath);
             int n = int.Parse(lines[0]);
-            input.setN(n);
+            input.N = n;
             int[,] res = new int[n,n];
             for (int i = 1; i < lines.Length; i ++) {
                 string[] splits= lines[i].Split(',');
@@ -126,7 +148,9 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
         /**
          * Matrix class to implis the fast multiplication
          */
-        public class Matrix {
+        public struct Matrix {
+            public static int naive_threshold = 64;
+
             private int[,] data;
 
             public int this[int i, int j] {
@@ -155,6 +179,26 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                 return sb.ToString();
             }
 
+
+            public static Matrix naiveMultiplication(Matrix A, Matrix B)
+            {
+                int[,] data = new int[A.Size, A.Size];
+                for (int i = 0; i < A.Size; i++)
+                {
+                    for (int j = 0; j < A.Size; j++)
+                    {
+                        int val = 0;
+                        for (int k = 0; k < A.Size; k++)
+                        {
+                            val = val + A[i, k] * B[k, j];
+                        }
+                        data[i, j] = val;
+                    }
+                }
+                Matrix A_seq = new Matrix(data);
+                return A_seq;
+            }
+
             public int Size { get => data.GetLength(0);  }
                   
             public Matrix(int[,] data) {
@@ -166,13 +210,8 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                 if (current_token.IsCancellationRequested){
                     throw new TaskCanceledException("task canceled");
                 }
-                if (a.Size == 2) {
-                    int[,] data= new int[2, 2];
-                    data[0, 0] = a.data[0, 0] * b.data[0, 0] + a.data[0, 1] * b.data[1, 0];
-                    data[0, 1] = a.data[0, 0] * b.data[0, 1] + a.data[0, 1] * b.data[1, 1];
-                    data[1, 0] = a.data[1, 0] * b.data[0, 0] + a.data[1, 1] * b.data[1, 0];
-                    data[1, 1] = a.data[1, 0] * b.data[0, 1] + a.data[1, 1] * b.data[1, 1];
-                    return new Matrix(data);
+                if (a.Size < naive_threshold) {
+                    return naiveMultiplication(a,b);
                 }
 
 
@@ -250,6 +289,7 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                 int[,] data12 = new int[halfSize, halfSize];
                 int[,] data21 = new int[halfSize, halfSize];
                 int[,] data22 = new int[halfSize, halfSize];
+
                 for (int i = 0; i < size; i++)
                 {
                     for (int j = 0; j < size; j++)
@@ -355,6 +395,27 @@ namespace algorithmProject.algorithms.devideconquer.pingpong
                 return new Matrix(data);
             }
 
+            public override bool Equals(object obj)
+            {
+                if(obj is Matrix matrix)
+                {
+                    if (data.GetLength(0) != matrix.data.GetLength(0) || data.GetLength(1) != matrix.data.GetLength(1))
+                    {
+                        return false;
+                    }
+                    for (int i = 0; i < data.GetLength(0); i ++) {
+                        for (int j = 0; j < data.GetLength(1); j++)
+                        {
+                            if (data[i,j] != matrix.data[i,j])
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }
